@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "642747098614",
+    "project_id": "photon-egypt",
+    "storage_bucket": "photon-egypt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642747098614:android:eccd470e7b0181294b93d7",
+        "android_client_info": {
+          "package_name": "com.photon.quiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642747098614-2uvtqqoiqn7pu1uqieij79o1so68umht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.photon.quiz",
+            "certificate_hash": "d0571a1cf691c8c9b832ba89a215d04136789357"
+          }
+        },
+        {
+          "client_id": "642747098614-86q7dc4jqjsjnkksmchgb556fv80vkm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.photon.quiz",
+            "certificate_hash": "7cddbe0c7b11fc1e270a9cf58b02147433114f30"
+          }
+        },
+        {
+          "client_id": "642747098614-cr7ud44v5dkd48ufpmc3v127ab8autnb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.photon.quiz",
+            "certificate_hash": "85b8167a9e967660f1d5e9697170cf56a0d27ea4"
+          }
+        },
+        {
+          "client_id": "642747098614-dttak815nud18efda5prk4jp603ppoq7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.photon.quiz",
+            "certificate_hash": "1e0cb8215bcfabb8072505909e9a75c3de22d0f8"
+          }
+        },
+        {
+          "client_id": "642747098614-lokso99c1gdlfji7u1pq92g1jdj8ohv5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.photon.quiz",
+            "certificate_hash": "f87d476f9974ede1eef4869b83da392f323e9c33"
+          }
+        },
+        {
+          "client_id": "642747098614-3u3ni4el7c3upiri8l1803ujvjbkjkj1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrHO8C-cLPQ96Uq1H3mmzeh9rNZWs0lIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642747098614-3u3ni4el7c3upiri8l1803ujvjbkjkj1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "642747098614-hllv90u37i712fq13761f726klbvglo1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.photon.quiz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
