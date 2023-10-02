@@ -30,15 +30,21 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(this._authRepository) : super(SignUpInitial());
 
   //signUp user
-  void signUpUser(AuthProvider authProvider, String email, String password,) {
+  void signUpUser(
+      {required AuthProvider authProvider,
+      required String email,
+      required String password,
+      required String grade}) {
     //emitting signup progress state
     emit(SignUpProgress(authProvider));
-    _authRepository.signUpUser(email, password).then((value) =>
+    _authRepository.signUpUser(email, password ,grade ).then((value) =>
         //success
         emit(SignUpSuccess())).catchError((e) {
       //failure
       emit(SignUpFailure(e.toString(),authProvider));
     });
   }
+
+
 
 }

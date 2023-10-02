@@ -15,6 +15,7 @@ import 'package:lottie/lottie.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -22,10 +23,14 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  List<String> categories = ['1', '2', '3', 'None'];
+  String selectedValue = "None";
+
   bool _obscureText = true, _obscureTextCn = true, isLoading = false;
   TextEditingController edtEmail = TextEditingController();
   TextEditingController edtPwd = TextEditingController();
   TextEditingController edtCPwd = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpCubit>(
@@ -64,6 +69,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * .05,
             ),
+            dropDownList(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .05,
+            ),
             showEmail(),
             SizedBox(
               height: MediaQuery.of(context).size.height * .02,
@@ -81,6 +90,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TermsAndCondition(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget dropDownList() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(),
+      child: DropdownButton<String>(
+        dropdownColor: Theme.of(context).cardColor,
+        value: selectedValue,
+        underline: SizedBox(),
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
+        items: categories
+            .map((category) => DropdownMenuItem<String>(
+                  value: category,
+                  child: Text(category),
+                ))
+            .toList(),
+        onChanged: (value) {
+          setState(() {
+            selectedValue = value!;
+          });
+          //cubit class is missing to change state
+        },
       ),
     );
   }
@@ -114,7 +149,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
 
   Widget showEmail() {
     return TextFormField(
@@ -340,8 +374,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       //calling signup user
-                      context.read<SignUpCubit>().signUpUser(AuthProvider.email,
-                          edtEmail.text.trim(), edtPwd.text.trim());
+                      context.read<SignUpCubit>().signUpUser(authProvider: AuthProvider.email,
+                         email:  edtEmail.text.trim(),password:  edtPwd.text.trim() ,grade:selectedValue );
                       resetForm();
                     }
                   },

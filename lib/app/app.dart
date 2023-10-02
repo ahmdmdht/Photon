@@ -203,6 +203,11 @@ class MyApp extends StatelessWidget {
                 return UiUtils.getLocaleFromLanguageCode(languageCode);
               }).toList(),
               initialRoute: Routes.splash,
+
+
+
+
+              
               onGenerateRoute: Routes.onGenerateRouted,
             ),
           );

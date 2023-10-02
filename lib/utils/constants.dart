@@ -1,6 +1,6 @@
 import 'package:flutterquiz/features/wallet/models/payoutMethod.dart';
 
-final String appName = "Elite Quiz";
+final String appName = "Photon";
 final String packageName = "com.photon.quiz";
 
 //supporated language codes

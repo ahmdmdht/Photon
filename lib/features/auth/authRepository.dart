@@ -129,7 +129,7 @@ class AuthRepository {
   }
 
   //to signUp user
-  Future<void> signUpUser(String email, String password) async {
+  Future<void> signUpUser(String email, String password , String grade) async {
     try {
       await _authRemoteDataSource.signUpUser(email, password);
     } catch (e) {

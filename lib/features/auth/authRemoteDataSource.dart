@@ -43,7 +43,11 @@ class AuthRemoteDataSource {
       String? referCode,
       String? friendCode}) async {
     try {
+      print("a7a2");
       String fcmToken = await getFCMToken();
+      print("a7a3");
+
+      print("fcmToken $fcmToken" );
       //body of post request
       final body = {
         accessValueKey: accessValue,
@@ -324,6 +328,7 @@ class AuthRemoteDataSource {
 
   static Future<String> getFCMToken() async {
     try {
+      print("fcmToken${fcm.FirebaseMessaging.instance.getToken()}");
       return await fcm.FirebaseMessaging.instance.getToken() ?? "";
     } catch (e) {
       return "";
@@ -335,6 +340,7 @@ class AuthRemoteDataSource {
     try {
       final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+
       //verify email address
       await userCredential.user!.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
