@@ -611,6 +611,7 @@ class _HomeScreenState extends State<HomeScreen>
                               child: RichText(
                                 maxLines: 1,
                                 text: TextSpan(
+
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold),
@@ -630,6 +631,39 @@ class _HomeScreenState extends State<HomeScreen>
                                       TextSpan(
                                         text:
                                             " ${state.userProfile.name ?? ""}",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onTertiary,
+                                        ),
+                                      )
+                                    ]),
+                              ),
+                            ),
+                            Container(
+                              width: constaint.maxWidth * 0.6,
+                              child: RichText(
+                                maxLines: 1,
+                                text: TextSpan(
+
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                    children: [
+                                      TextSpan(
+                                          text: "Grade" ,
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onTertiary,
+                                          )),
+                                      TextSpan(
+                                        text:
+                                        " ${state.userProfile.grade ?? ""}",
                                         style: TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,

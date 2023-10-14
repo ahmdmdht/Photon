@@ -25,10 +25,12 @@ class ProfileManagementRemoteDataSource {
         firebaseIdKey: firebaseId,
       };
       print(await ApiUtils.getHeaders());
+
       final response = await http.post(Uri.parse(getUserDetailsByIdUrl),
           body: body, headers: await ApiUtils.getHeaders());
 
       final responseJson = jsonDecode(response.body);
+      print("KOSOMOKO $responseJson");
 
       if (responseJson['error']) {
         throw ProfileManagementException(

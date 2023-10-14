@@ -4,6 +4,7 @@ class UserProfile {
   final String? firebaseId;
   final String? profileUrl;
   final String? email;
+  final String? grade ;
   final String? mobileNumber;
   final String? status;
   final String? allTimeScore;
@@ -13,7 +14,7 @@ class UserProfile {
   final String? referCode;
   final String? fcmToken;
 
-  UserProfile({this.email, this.fcmToken, this.referCode, this.firebaseId, this.mobileNumber, this.name, this.profileUrl, this.userId, this.allTimeRank, this.allTimeScore, this.coins, this.registeredDate, this.status});
+  UserProfile( {this.email, this.fcmToken, this.referCode, this.firebaseId, this.mobileNumber, this.name, this.profileUrl, this.userId, this.allTimeRank, this.allTimeScore, this.coins, this.registeredDate, this.status ,this.grade,});
 
   static UserProfile fromJson(Map<String, dynamic> jsonData) {
     //torefer keys go profileMan.remoteRepo
@@ -22,6 +23,7 @@ class UserProfile {
         mobileNumber: jsonData['mobile'],
         name: jsonData['name'],
         profileUrl: jsonData['profile'],
+        grade:  jsonData['grade'],
         registeredDate: jsonData['date_registered'],
         status: jsonData['status'],
         userId: jsonData['id'],
@@ -31,9 +33,11 @@ class UserProfile {
         referCode: jsonData['refer_code'],
         fcmToken: jsonData['fcm_id'],
         email: jsonData['email']);
+
+
   }
 
-  UserProfile copyWith({String? profileUrl, String? name, String? allTimeRank, String? allTimeScore, String? coins, String? status, String? mobile, String? email}) {
+  UserProfile copyWith({String? profileUrl, String? name, String? allTimeRank, String? allTimeScore, String? coins, String? status, String? mobile, String? email , String ? grade}) {
     return UserProfile(
         fcmToken: this.fcmToken,
         userId: this.userId,
@@ -47,10 +51,11 @@ class UserProfile {
         coins: coins ?? this.coins,
         mobileNumber: mobile ?? this.mobileNumber,
         registeredDate: this.registeredDate,
+        grade: this.grade,
         status: status ?? this.status);
   }
 
-  UserProfile copyWithProfileData(String? name, String? mobile, String? email) {
+  UserProfile copyWithProfileData(String? name, String? mobile, String? email , String ? grade) {
     return UserProfile(
       fcmToken: this.fcmToken,
       referCode: this.referCode,
@@ -58,6 +63,7 @@ class UserProfile {
       profileUrl: this.profileUrl,
       email: email,
       name: name,
+      grade: grade,
       firebaseId: this.firebaseId,
       allTimeRank: this.allTimeRank,
       allTimeScore: this.allTimeScore,

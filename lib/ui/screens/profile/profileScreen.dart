@@ -345,6 +345,7 @@ class ProfileScreen extends StatelessWidget {
                           : state.userProfile.email!,
                       title: emailLbl,
                     ),
+
                     SizedBox(
                       height: MediaQuery.of(context).size.height * (0.015),
                     ),

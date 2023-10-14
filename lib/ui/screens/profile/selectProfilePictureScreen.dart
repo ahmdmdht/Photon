@@ -600,6 +600,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
                         height: 15.0,
                       ),
                       _buildSelectAvatarText(),
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height * (0.025),
                       ),
