@@ -10,8 +10,12 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/validators.dart';
 
 class EditProfileFieldBottomSheetContainer extends StatefulWidget {
+
+
+
+   int  ? selectedGrade ; // Initial value
   final String
-      fieldTitle; //value of fieldTitle will be from :  Email,Mobile Number,Name
+      fieldTitle;
   final String fieldValue; //
   final bool numericKeyboardEnable;
   final UpdateUserDetailCubit updateUserDetailCubit;
@@ -49,6 +53,13 @@ class _EditProfileFieldBottomSheetContainerState
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.selectedGrade = int.parse(context.read<UserDetailsCubit>().getUserProfile().grade!) ;
+
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocListener<UpdateUserDetailCubit, UpdateUserDetailState>(
       bloc: widget.updateUserDetailCubit,
@@ -64,6 +75,7 @@ class _EditProfileFieldBottomSheetContainerState
                 name: widget.fieldTitle == nameLbl
                     ? textEditingController.text.trim()
                     : null,
+            grade: widget.selectedGrade.toString()
               );
           Navigator.of(context).pop();
         } else if (state is UpdateUserDetailFailure) {
@@ -125,6 +137,7 @@ class _EditProfileFieldBottomSheetContainerState
                             color: Theme.of(context).primaryColor,
                           )),
                     ),
+
                   ],
                 ),
                 Container(
@@ -166,6 +179,60 @@ class _EditProfileFieldBottomSheetContainerState
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * (0.02),
+                ),
+                Container(
+
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * (0.125),
+                  ),
+                  padding: EdgeInsetsDirectional.only(start: 20.0),
+                  height: 60.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Theme.of(context).backgroundColor,
+                  ),
+                  child:  DropdownButton<int>(
+
+                    dropdownColor: Colors.white,
+
+                    underline: SizedBox(),
+                    iconSize: 30,
+                    isExpanded: true,
+                    padding: EdgeInsets.only(right:10 ),
+
+                    value: widget.selectedGrade,
+
+
+                    items: [
+                      DropdownMenuItem<int>(
+                        value: 1,
+                        child: Text('First grade secondary' ,style:  TextStyle(
+                            fontSize: 15.0,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w400),),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 2,
+                        child: Text('Second grade secondary' ,style:  TextStyle(
+                            fontSize: 15.0,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w400),),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 3,
+                        child: Text('Third grade secondary' ,style:  TextStyle(
+                            fontSize: 15.0,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w400),),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        widget.selectedGrade = value!;
+                      });
+                    },
+                  ),
                 ),
 
                 AnimatedSwitcher(
@@ -242,6 +309,7 @@ class _EditProfileFieldBottomSheetContainerState
                                   userId: context
                                       .read<UserDetailsCubit>()
                                       .getUserId(),
+
                                   email: widget.fieldTitle == emailLbl
                                       ? textEditingController.text.trim()
                                       : userProfile.email ?? "",
@@ -251,6 +319,7 @@ class _EditProfileFieldBottomSheetContainerState
                                   name: widget.fieldTitle == nameLbl
                                       ? textEditingController.text.trim()
                                       : userProfile.name ?? "",
+                                  grade: widget.selectedGrade.toString()
                                 );
                               },
                         fontWeight: FontWeight.bold,

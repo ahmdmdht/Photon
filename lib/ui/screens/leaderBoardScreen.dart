@@ -24,15 +24,15 @@ class LeaderBoardScreen extends StatefulWidget {
   static Route<dynamic> route(RouteSettings routeSettings) {
     return CupertinoPageRoute(
         builder: (context) => MultiBlocProvider(providers: [
-              BlocProvider<LeaderBoardMonthlyCubit>(
-                  create: (context) => LeaderBoardMonthlyCubit()),
-              BlocProvider<LeaderBoardDailyCubit>(
-                  create: (context) => LeaderBoardDailyCubit()),
-              BlocProvider<LeaderBoardAllTimeCubit>(
-                  create: (context) => LeaderBoardAllTimeCubit(
-                      // LeaderBoardRepository(),
-                      )),
-            ], child: LeaderBoardScreen()));
+          BlocProvider<LeaderBoardMonthlyCubit>(
+              create: (context) => LeaderBoardMonthlyCubit()),
+          BlocProvider<LeaderBoardDailyCubit>(
+              create: (context) => LeaderBoardDailyCubit()),
+          BlocProvider<LeaderBoardAllTimeCubit>(
+              create: (context) => LeaderBoardAllTimeCubit(
+                // LeaderBoardRepository(),
+              )),
+        ], child: LeaderBoardScreen()));
   }
 }
 
@@ -175,8 +175,8 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
               state is LeaderBoardDailyInitial) {
             return Center(
                 child: CircularProgressContainer(
-              useWhiteLoader: false,
-            ));
+                  useWhiteLoader: false,
+                ));
           }
           if (state is LeaderBoardDailyFailure) {
             return ErrorContainer(
@@ -203,10 +203,10 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
                 LeaderBoardDailyCubit.scoreD == "0"
                     ? Container()
                     : myRank(
-                        LeaderBoardDailyCubit.rankD,
-                        LeaderBoardDailyCubit.profileD,
-                        LeaderBoardDailyCubit.scoreD,
-                      )
+                  LeaderBoardDailyCubit.rankD,
+                  LeaderBoardDailyCubit.profileD,
+                  LeaderBoardDailyCubit.scoreD,
+                )
               ]));
         });
   }
@@ -236,14 +236,15 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
           }
           if (state is LeaderBoardMonthlyFailure) {
             return ErrorContainer(
-              showBackButton: false,
+            showBackButton: false,
+
               errorMessage: AppLocalization.of(context)!.getTranslatedValues(
                   convertErrorCodeToLanguageKey(state.errorMessage))!,
               onTapRetry: () {
                 context
                     .read<LeaderBoardMonthlyCubit>()
                     .fetchMoreLeaderBoardData(
-                        "20", context.read<UserDetailsCubit>().getUserId());
+                    "20", context.read<UserDetailsCubit>().getUserId());
               },
               showErrorImage: true,
               errorMessageColor: Theme.of(context).primaryColor,
@@ -260,9 +261,9 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
                 LeaderBoardMonthlyCubit.scoreM == "0"
                     ? Container()
                     : myRank(
-                        LeaderBoardMonthlyCubit.rankM,
-                        LeaderBoardMonthlyCubit.profileM,
-                        LeaderBoardMonthlyCubit.scoreM)
+                    LeaderBoardMonthlyCubit.rankM,
+                    LeaderBoardMonthlyCubit.profileM,
+                    LeaderBoardMonthlyCubit.scoreM)
               ]));
         });
   }
@@ -299,7 +300,7 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
                 context
                     .read<LeaderBoardAllTimeCubit>()
                     .fetchMoreLeaderBoardData(
-                        "20", context.read<UserDetailsCubit>().getUserId());
+                    "20", context.read<UserDetailsCubit>().getUserId());
               },
               showErrorImage: true,
               errorMessageColor: Theme.of(context).primaryColor,
@@ -316,9 +317,9 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
                 LeaderBoardAllTimeCubit.scoreA == "0"
                     ? Container()
                     : myRank(
-                        LeaderBoardAllTimeCubit.rankA,
-                        LeaderBoardAllTimeCubit.profileA,
-                        LeaderBoardAllTimeCubit.scoreA)
+                    LeaderBoardAllTimeCubit.rankA,
+                    LeaderBoardAllTimeCubit.profileA,
+                    LeaderBoardAllTimeCubit.scoreA)
               ]));
         });
   }
@@ -338,274 +339,274 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              circleList.length > 2
-                  ? Container(
-                      padding: EdgeInsetsDirectional.only(
-                          top: MediaQuery.of(context).size.height * .07),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * .115,
-                            width: MediaQuery.of(context).size.width * .21,
-                            child: Stack(
-                              children: [
-                                Container(
-                                    height:
-                                        MediaQuery.of(context).size.height * .1,
-                                    width:
-                                        MediaQuery.of(context).size.width * .21,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 1.0,
-                                            color: Theme.of(context)
-                                                .backgroundColor)),
-                                    child: CircleAvatar(
-                                        radius: constraints.maxHeight *
-                                            (profileRadiusPercentage - 0.0535),
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          circleList[2]['profile'],
-                                        ))),
-                                PositionedDirectional(
-                                  start: MediaQuery.of(context).size.width * .06,
-                                  top: MediaQuery.of(context).size.height * .07,
-                                  child: CircleAvatar(
-                                      radius: 15,
-                                      backgroundColor: Theme.of(context).primaryColor,
-                                      child: Text(
-                                        "2\u207f\u1d48",
-                                        style: TextStyle(color: backgroundColor),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * .2,
-                              child: Center(
-                                child: Text(
-                                  circleList[2]['name']!.isNotEmpty
-                                      ? circleList[2]['name']!
-                                      : "...",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                ),
-                              )),
-                          Container(
-                              width: MediaQuery.of(context).size.width * .15,
-                              child: Center(
-                                child: Text(
-                                  circleList[2]['score']!.isNotEmpty
-                                      ? circleList[2]['score']!
-                                      : "...",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                              )),
-                        ],
-                      ),
-                    )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * .1,
-                      width: MediaQuery.of(context).size.width * .2,
-                      // decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle, border: Border.all(width: 1.0, color: Theme.of(context).backgroundColor)),
-                    ),
               circleList.length > 1
                   ? Container(
-                      child: Column(
+                padding: EdgeInsetsDirectional.only(
+                    top: MediaQuery.of(context).size.height * .07),
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * .115,
+                      width: MediaQuery.of(context).size.width * .21,
+                      child: Stack(
                         children: [
-                          SvgPicture.asset(
-                              UiUtils.getImagePath("Rankone_icon.svg"),
-                              height: MediaQuery.of(context).size.height * .025,
-                              color: Theme.of(context).primaryColor,
-                              width: MediaQuery.of(context).size.width * .02),
                           Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            height: MediaQuery.of(context).size.height * .16,
-                            width: MediaQuery.of(context).size.width * .26,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * .14,
-                                  width:
-                                      MediaQuery.of(context).size.width * .26,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 3.0,
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: CircleAvatar(
-                                        radius: constraints.maxHeight *
-                                            (profileRadiusPercentage - 0.0535),
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          circleList[1]['profile']!,
-                                        )),
-                                  ),
-                                ),
-                                PositionedDirectional(
-                                  start:
-                                      MediaQuery.of(context).size.width * .08,
-                                  top: MediaQuery.of(context).size.height * .11,
-                                  child: CircleAvatar(
-                                      radius: 17,
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                      child: Text(
-                                        "1\u02e2\u1d57",
-                                        style:
-                                            TextStyle(color: backgroundColor),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * .2,
-                              child: Center(
-                                child: Text(
-                                  circleList[1]['name']!.isNotEmpty
-                                      ? circleList[1]['name']!
-                                      : "...",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 14,
+                              height:
+                              MediaQuery.of(context).size.height * .1,
+                              width:
+                              MediaQuery.of(context).size.width * .21,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      width: 1.0,
                                       color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                ),
-                              )),
-                          Container(
-                              width: MediaQuery.of(context).size.width * .15,
-                              child: Center(
+                                          .backgroundColor)),
+                              child: CircleAvatar(
+                                  radius: constraints.maxHeight *
+                                      (profileRadiusPercentage - 0.0535),
+                                  backgroundImage:
+                                  CachedNetworkImageProvider(
+                                    circleList[1]['profile'],
+                                  ))),
+                          PositionedDirectional(
+                            start: MediaQuery.of(context).size.width * .06,
+                            top: MediaQuery.of(context).size.height * .07,
+                            child: CircleAvatar(
+                                radius: 15,
+                                backgroundColor: Theme.of(context).primaryColor,
                                 child: Text(
-                                  circleList[1]['score']!.isNotEmpty
-                                      ? circleList[1]['score']!
-                                      : "...",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                              )),
+                                  "2\u207f\u1d48",
+                                  style: TextStyle(color: backgroundColor),
+                                )),
+                          ),
                         ],
                       ),
-                    )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * .1,
-                      width: MediaQuery.of(context).size.width * .2,
-                      // decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle, border: Border.all(width: 1.0, color: Theme.of(context).backgroundColor)),
                     ),
-              circleList.length > 3
+                    Container(
+                        width: MediaQuery.of(context).size.width * .2,
+                        child: Center(
+                          child: Text(
+                            circleList[1]['name']!.isNotEmpty
+                                ? circleList[1]['name']!
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary),
+                          ),
+                        )),
+                    Container(
+                        width: MediaQuery.of(context).size.width * .15,
+                        child: Center(
+                          child: Text(
+                            circleList[2]['score']!.isNotEmpty
+                                ? circleList[2]['score']!
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        )),
+                  ],
+                ),
+              )
+                  : Container(
+                height: MediaQuery.of(context).size.height * .1,
+                width: MediaQuery.of(context).size.width * .2,
+                // decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle, border: Border.all(width: 1.0, color: Theme.of(context).backgroundColor)),
+              ),
+              circleList.length > 0
                   ? Container(
-                      padding: EdgeInsetsDirectional.only(
-                          top: MediaQuery.of(context).size.height * .07),
-                      child: Column(
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                        UiUtils.getImagePath("Rankone_icon.svg"),
+                        height: MediaQuery.of(context).size.height * .025,
+                        color: Theme.of(context).primaryColor,
+                        width: MediaQuery.of(context).size.width * .02),
+                    Container(
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      height: MediaQuery.of(context).size.height * .16,
+                      width: MediaQuery.of(context).size.width * .26,
+                      child: Stack(
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * .115,
-                            width: MediaQuery.of(context).size.width * .22,
-                            child: Stack(
-                              children: [
-                                Container(
-                                    height:
-                                        MediaQuery.of(context).size.height * .1,
-                                    width:
-                                        MediaQuery.of(context).size.width * .22,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 1.0,
-                                            color: Theme.of(context)
-                                                .backgroundColor)),
-                                    child: CircleAvatar(
-                                        radius: constraints.maxHeight *
-                                            (profileRadiusPercentage - 0.0535),
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          circleList[3]['profile']!,
-                                        ))),
-                                PositionedDirectional(
-                                    start:
-                                        MediaQuery.of(context).size.width * .06,
-                                    top: MediaQuery.of(context).size.height *
-                                        .07,
-                                    child: CircleAvatar(
-                                        radius: 15,
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                        child: Text(
-                                          "3\u02b3\u1d48",
-                                          style:
-                                              TextStyle(color: backgroundColor),
-                                        ))),
-                              ],
+                            height:
+                            MediaQuery.of(context).size.height * .14,
+                            width:
+                            MediaQuery.of(context).size.width * .26,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    width: 3.0,
+                                    color:
+                                    Theme.of(context).primaryColor)),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: CircleAvatar(
+                                  radius: constraints.maxHeight *
+                                      (profileRadiusPercentage - 0.0535),
+                                  backgroundImage:
+                                  CachedNetworkImageProvider(
+                                    circleList[0]['profile']!,
+                                  )),
                             ),
                           ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * .2,
-                              child: Center(
+                          PositionedDirectional(
+                            start:
+                            MediaQuery.of(context).size.width * .08,
+                            top: MediaQuery.of(context).size.height * .11,
+                            child: CircleAvatar(
+                                radius: 17,
+                                backgroundColor:
+                                Theme.of(context).primaryColor,
                                 child: Text(
-                                  circleList[3]['name']!.isNotEmpty
-                                      ? circleList[3]['name']!
-                                      : "...",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                ),
-                              )),
-                          Container(
-                              width: MediaQuery.of(context).size.width * .15,
-                              child: Center(
-                                child: Text(
-                                  circleList[3]['score']!.isNotEmpty
-                                      ? circleList[3]['score']!
-                                      : "...",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                              )),
+                                  "1\u02e2\u1d57",
+                                  style:
+                                  TextStyle(color: backgroundColor),
+                                )),
+                          ),
                         ],
                       ),
-                    )
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width * .2,
+                        child: Center(
+                          child: Text(
+                            circleList[0]['name']!.isNotEmpty
+                                ? circleList[0]['name']!
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary),
+                          ),
+                        )),
+                    Container(
+                        width: MediaQuery.of(context).size.width * .15,
+                        child: Center(
+                          child: Text(
+                            circleList[0]['score']!.isNotEmpty
+                                ? circleList[0]['score']!
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        )),
+                  ],
+                ),
+              )
                   : Container(
-                      height: MediaQuery.of(context).size.height * .1,
+                height: MediaQuery.of(context).size.height * .1,
+                width: MediaQuery.of(context).size.width * .2,
+                // decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle, border: Border.all(width: 1.0, color: Theme.of(context).backgroundColor)),
+              ),
+              circleList.length > 2
+                  ? Container(
+                padding: EdgeInsetsDirectional.only(
+                    top: MediaQuery.of(context).size.height * .07),
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * .115,
                       width: MediaQuery.of(context).size.width * .22,
-                      // decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle, border: Border.all(width: 1.0, color: Theme.of(context).backgroundColor)),
-                    )
+                      child: Stack(
+                        children: [
+                          Container(
+                              height:
+                              MediaQuery.of(context).size.height * .1,
+                              width:
+                              MediaQuery.of(context).size.width * .22,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      width: 1.0,
+                                      color: Theme.of(context)
+                                          .backgroundColor)),
+                              child: CircleAvatar(
+                                  radius: constraints.maxHeight *
+                                      (profileRadiusPercentage - 0.0535),
+                                  backgroundImage:
+                                  CachedNetworkImageProvider(
+                                    circleList[3]['profile']!,
+                                  ))),
+                          PositionedDirectional(
+                              start:
+                              MediaQuery.of(context).size.width * .06,
+                              top: MediaQuery.of(context).size.height *
+                                  .07,
+                              child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor:
+                                  Theme.of(context).primaryColor,
+                                  child: Text(
+                                    "3\u02b3\u1d48",
+                                    style:
+                                    TextStyle(color: backgroundColor),
+                                  ))),
+                        ],
+                      ),
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width * .2,
+                        child: Center(
+                          child: Text(
+                            circleList[2]['name']!.isNotEmpty
+                                ? circleList[2]['name']!
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary),
+                          ),
+                        )),
+                    Container(
+                        width: MediaQuery.of(context).size.width * .15,
+                        child: Center(
+                          child: Text(
+                            circleList[2]['score']!.isNotEmpty
+                                ? circleList[2]['score']!
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        )),
+                  ],
+                ),
+              )
+                  : Container(
+                height: MediaQuery.of(context).size.height * .1,
+                width: MediaQuery.of(context).size.width * .22,
+                // decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle, border: Border.all(width: 1.0, color: Theme.of(context).backgroundColor)),
+              )
             ],
           );
         }));
@@ -615,116 +616,117 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
       List leaderBoardList, ScrollController controller, bool hasMore) {
     return Expanded(
         child: Container(
-      height: MediaQuery.of(context).size.height * .45,
-      padding: EdgeInsetsDirectional.only(
-          start: MediaQuery.of(context).size.width * .02,
-          end: MediaQuery.of(context).size.width * .02),
-      child: ListView.builder(
-        controller: controller,
-        shrinkWrap: true,
-        itemCount: /*(offset < totals) ? leaderBoardList.length + 1 : */ leaderBoardList
-            .length,
-        itemBuilder: (BuildContext context, int index) {
-          return index > 3
-              ? (hasMore && index == (leaderBoardList.length - 1))
+          height: MediaQuery.of(context).size.height * .45,
+          padding: EdgeInsetsDirectional.only(
+              start: MediaQuery.of(context).size.width * .02,
+              end: MediaQuery.of(context).size.width * .02),
+          child: ListView.builder(
+            controller: controller,
+            shrinkWrap: true,
+            itemCount: /*(offset < totals) ? leaderBoardList.length + 1 : */ leaderBoardList
+                .length,
+            itemBuilder: (BuildContext context, int index) {
+              return index > 2
+                  ? (hasMore && index == (leaderBoardList.length - 1))
                   ? Center(
-                      child: CircularProgressContainer(
-                      useWhiteLoader: false,
-                    ))
+                  child: CircularProgressContainer(
+                    useWhiteLoader: false,
+                  ))
                   : Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.only(
-                                  top: MediaQuery.of(context).size.height * .01,
-                                ),
-                                child: Column(children: <Widget>[
-                                  Text(
-                                    UiUtils.formatNumber(
-                                        int.parse(index.toString())),
-                                    //  "$index",maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                  Icon(Icons.arrow_drop_up,
-                                      color: Theme.of(context).primaryColor)
-                                ]),
-                              ),
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            top: MediaQuery.of(context).size.height * .01,
+                          ),
+                          child: Column(children: <Widget>[
+                            Text(
+                              UiUtils.formatNumber(
+
+                                  int.parse(index.toString())+1),
+                              //  "$index",maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColor),
                             ),
-                            Expanded(
-                              flex: 9,
-                              child: ListTile(
-                                dense: true,
-                                contentPadding:
-                                    EdgeInsetsDirectional.only(end: 20),
-                                title: Text(
-                                  leaderBoardList[index]['name'] ?? "",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                                leading: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * .12,
-                                  height:
-                                      MediaQuery.of(context).size.height * .3,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.5),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            leaderBoardList[index]['profile'] ??
-                                                ""),
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                trailing: Container(
-                                  width: MediaQuery.of(context).size.width * .1,
-                                  child: Center(
-                                    child: Text(
-                                      UiUtils.formatNumber(int.parse(
-                                          leaderBoardList[index]['score'] ??
-                                              "0")),
-                                      // leaderBoardList[index]['score'] ?? "",
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                            Icon(Icons.arrow_drop_up,
+                                color: Theme.of(context).primaryColor)
+                          ]),
                         ),
-                        index == (leaderBoardList.length - 1)
-                            ? Container()
-                            : Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 5,
-                                    top: 5,
-                                    left: MediaQuery.of(context).size.width *
-                                        0.03,
-                                    right: MediaQuery.of(context).size.width *
-                                        0.05),
-                                width: MediaQuery.of(context).size.width,
-                                height: 0.2,
-                                color: Theme.of(context).colorScheme.secondary,
-                              )
-                      ],
-                    )
-              : Container();
-        },
-      ),
-    ));
+                      ),
+                      Expanded(
+                        flex: 9,
+                        child: ListTile(
+                          dense: true,
+                          contentPadding:
+                          EdgeInsetsDirectional.only(end: 20),
+                          title: Text(
+                            leaderBoardList[index]['name'] ?? "",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                          leading: Container(
+                            width:
+                            MediaQuery.of(context).size.width * .12,
+                            height:
+                            MediaQuery.of(context).size.height * .3,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      leaderBoardList[index]['profile'] ??
+                                          ""),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                          trailing: Container(
+                            width: MediaQuery.of(context).size.width * .1,
+                            child: Center(
+                              child: Text(
+                                UiUtils.formatNumber(int.parse(
+                                    leaderBoardList[index]['score'] ??
+                                        "0")),
+                                // leaderBoardList[index]['score'] ?? "",
+                                maxLines: 1,
+                                softWrap: false,
+                                style: TextStyle(
+                                    color:
+                                    Theme.of(context).primaryColor),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  index == (leaderBoardList.length - 1)
+                      ? Container()
+                      : Container(
+                    margin: EdgeInsets.only(
+                        bottom: 5,
+                        top: 5,
+                        left: MediaQuery.of(context).size.width *
+                            0.03,
+                        right: MediaQuery.of(context).size.width *
+                            0.05),
+                    width: MediaQuery.of(context).size.width,
+                    height: 0.2,
+                    color: Theme.of(context).colorScheme.secondary,
+                  )
+                ],
+              )
+                  : Container();
+            },
+          ),
+        ));
   }
 
   Widget myRank(String rank, String profile, String score) {
@@ -734,7 +736,7 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       child: ListTile(
-        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03),
+          contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.03),
           title: Text(
             AppLocalization.of(context)!.getTranslatedValues(myRankKey)!,
             overflow: TextOverflow.ellipsis,
@@ -753,7 +755,7 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10),
+                margin: EdgeInsets.only(left: 10),
                 height: MediaQuery.of(context).size.height * .06,
                 width: MediaQuery.of(context).size.width * .13,
                 decoration: BoxDecoration(
@@ -777,9 +779,9 @@ class _LeaderBoardScreen extends State<LeaderBoardScreen> {
             ),
             child: Center(
                 child: Text(
-              score,
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            )),
+                  score,
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                )),
           )),
     );
   }

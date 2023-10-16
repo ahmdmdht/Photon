@@ -12,17 +12,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:apple_sign_in_safety/apple_sign_in.dart';
 
-
-
-
-
-
-
-
-
 class AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
 //  final _facebookSignin = FacebookLogin();
   /*
   data part of addUser response
@@ -39,21 +32,23 @@ class AuthRemoteDataSource {
       String? name,
       String? profile,
       String? mobile,
+      String? grade,
       String? email,
       String? referCode,
       String? friendCode}) async {
     try {
-      print("a7a2");
       String fcmToken = await getFCMToken();
-      print("a7a3");
+      print("a7aaaaaaaaaaaaaaaaaaaaaaaaaakkkkk");
+      print(grade);
 
-      print("fcmToken $fcmToken" );
+      print("fcmToken $fcmToken");
       //body of post request
       final body = {
         accessValueKey: accessValue,
         firebaseIdKey: firebaseId,
         typeKey: type,
         nameKey: name,
+        gradeKey: grade ?? "3",
         emailKey: email ?? "",
         profileKey: profile ?? "",
         mobileKey: mobile ?? "",
@@ -62,7 +57,11 @@ class AuthRemoteDataSource {
       };
 
       final response = await http.post(Uri.parse(addUserUrl), body: body);
+      print("body ${body.toString()}");
+      print("body ${body['grade']}");
+      print("response response response ${response.body}");
       final responseJson = jsonDecode(response.body);
+      print("responseJson $responseJson");
 
       if (responseJson['error']) {
         throw AuthException(errorMessageCode: responseJson['message']);
@@ -73,7 +72,6 @@ class AuthRemoteDataSource {
     } on AuthException catch (e) {
       throw AuthException(errorMessageCode: e.toString());
     } catch (e) {
-
       //print(e.toString());
       throw AuthException(errorMessageCode: defaultErrorMessageCode);
     }
@@ -173,6 +171,7 @@ class AuthRemoteDataSource {
     String? password,
     String? verificationId,
     String? smsCode,
+    String? grade,
   }) async {
     //user creadential contains information of signin user and is user new or not
     Map<String, dynamic> result = {};
@@ -189,7 +188,8 @@ class AuthRemoteDataSource {
 
         result['user'] = userCredential.user!;
         result['isNewUser'] = userCredential.additionalUserInfo!.isNewUser;
-      } /*else if (authProvider == AuthProvider.fb) {
+      }
+      /*else if (authProvider == AuthProvider.fb) {
         final faceBookAuthResult = await signInWithFacebook();
         if (faceBookAuthResult != null) {
           result['user'] = faceBookAuthResult.user!;
@@ -198,7 +198,8 @@ class AuthRemoteDataSource {
         } else {
           throw AuthException(errorMessageCode: defaultErrorMessageCode);
         }
-      }*/ else if (authProvider == AuthProvider.email) {
+      }*/
+      else if (authProvider == AuthProvider.email) {
         UserCredential userCredential =
             await signInWithEmailAndPassword(email!, password!);
 
@@ -267,7 +268,7 @@ class AuthRemoteDataSource {
         return null;
       default:
         return null;
-    }*//*
+    }*/ /*
 
   }
 */
@@ -339,7 +340,12 @@ class AuthRemoteDataSource {
   Future<void> signUpUser(String email, String password) async {
     try {
       final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
+
+
+      print("userCredential ${userCredential}");
 
       //verify email address
       await userCredential.user!.sendEmailVerification();
@@ -356,8 +362,10 @@ class AuthRemoteDataSource {
     _firebaseAuth.signOut();
     if (authProvider == AuthProvider.gmail) {
       _googleSignIn.signOut();
-    } /*else if (authProvider == AuthProvider.fb) {
+    }
+    /*else if (authProvider == AuthProvider.fb) {
       //_facebookSignin.logOut();
-    }*/ else if (AuthProvider.apple == AuthProvider.apple) {}
+    }*/
+    else if (AuthProvider.apple == AuthProvider.apple) {}
   }
 }

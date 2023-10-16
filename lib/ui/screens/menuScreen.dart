@@ -126,6 +126,9 @@ class _MenuScreenState extends State<MenuScreen> {
       menuName.removeWhere((element) => element == "deleteAccount");
       menuIcon.removeWhere((element) => element == "delete_account.svg");
     }
+
+
+
   }
 
   @override
@@ -582,23 +585,47 @@ class _MenuScreenState extends State<MenuScreen> {
                                       children: [
                                         Row(
                                           children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
+                                            Column(
+                                              children: [
+
+
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  child: Text(
+                                                    state.userProfile.name!,
+                                                    style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onTertiary,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.5,
-                                              child: Text(
-                                                state.userProfile.name!,
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onTertiary,
+                                                      0.5,
+                                                  child: Text(
+                                                    "Grade ${state.userProfile.grade}",
+                                                    style: TextStyle(
+                                                      fontSize: 12.0,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onTertiary,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
                                                 ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
+                                              ],
                                             ),
                                             Spacer(),
                                             InkWell(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/main.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/apiUtils.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -50,6 +51,9 @@ class LeaderBoardDailyCubit extends Cubit<LeaderBoardDailyState> {
       final response = await http.post(Uri.parse(getDailyLeaderboardUrl),
           body: body, headers: await ApiUtils.getHeaders());
       final responseJson = jsonDecode(response.body);
+
+      logger.d(responseJson);
+
 
       if (responseJson['error']) {
         throw LeaderBoardException(errorMessageCode: responseJson['message']);

@@ -46,12 +46,14 @@ class AuthRepository {
     required String email,
     required String password,
     required String verificationId,
+      required  String  grade ,
     required String smsCode,
   }) async {
     try {
       final result = await _authRemoteDataSource.signInUser(
         authProvider,
         email: email,
+        grade : grade ,
         password: password,
         smsCode: smsCode,
         verificationId: verificationId,
@@ -69,6 +71,7 @@ class AuthRepository {
             email: user.email ?? "",
             firebaseId: user.uid,
             mobile: user.phoneNumber ?? "",
+            grade: grade,
             name: user.displayName ?? "",
             type: getAuthTypeString(authProvider),
             profile: user.photoURL ?? "",
@@ -129,9 +132,9 @@ class AuthRepository {
   }
 
   //to signUp user
-  Future<void> signUpUser(String email, String password , String grade) async {
+  Future<void> signUpUser({required String email, required String password , String ?  grade}) async {
     try {
-      await _authRemoteDataSource.signUpUser(email, password);
+      await _authRemoteDataSource.signUpUser(email, password );
     } catch (e) {
       signOut(AuthProvider.email);
       throw AuthException(errorMessageCode: e.toString());
@@ -177,6 +180,7 @@ class AuthRepository {
       String? name,
       String? profile,
       String? mobile,
+        String ? grade ,
       String? email,
       String? referCode,
       String? friendCode}) async {
@@ -186,6 +190,7 @@ class AuthRepository {
           firebaseId: firebaseId,
           friendCode: friendCode,
           mobile: mobile,
+          grade: grade,
           name: name,
           profile: profile,
           referCode: referCode,

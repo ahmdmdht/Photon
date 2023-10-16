@@ -43,6 +43,7 @@ class SignInCubit extends Cubit<SignInState> {
     String? email,
     String? verificationId,
     String? smsCode,
+    String? grade,
     String? password,
   }) {
     //emitting signInProgress state
@@ -51,6 +52,7 @@ class SignInCubit extends Cubit<SignInState> {
     _authRepository
         .signInUser(
       authProvider,
+      grade: grade??"1",
       email: email ?? "",
       password: password ?? "",
       smsCode: smsCode ?? "",

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/profileManagement/models/userProfile.dart';
 import 'package:flutterquiz/features/profileManagement/profileManagementRepository.dart';
 
+import '../../../main.dart';
+
 @immutable
 abstract class UserDetailsState {}
 
@@ -12,16 +14,19 @@ class UserDetailsFetchInProgress extends UserDetailsState {}
 
 class UserDetailsFetchSuccess extends UserDetailsState {
   final UserProfile userProfile;
+
   UserDetailsFetchSuccess(this.userProfile);
 }
 
 class UserDetailsFetchFailure extends UserDetailsState {
   final String errorMessage;
+
   UserDetailsFetchFailure(this.errorMessage);
 }
 
 class UserDetailsCubit extends Cubit<UserDetailsState> {
   final ProfileManagementRepository _profileManagementRepository;
+
   UserDetailsCubit(this._profileManagementRepository)
       : super(UserDetailsInitial());
 
@@ -32,7 +37,11 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
     try {
       UserProfile userProfile =
           await _profileManagementRepository.getUserDetailsById(firebaseId);
+      print("a7aaaaaaaaaaaaaaaaaaaaaa");
+      print(userProfile.grade);
       emit(UserDetailsFetchSuccess(userProfile));
+
+
     } catch (e) {
       emit(UserDetailsFetchFailure(e.toString()));
     }
@@ -41,6 +50,13 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
   String getUserName() {
     if (state is UserDetailsFetchSuccess) {
       return (state as UserDetailsFetchSuccess).userProfile.name!;
+    }
+    return "";
+  }
+
+  String getUserGrade() {
+    if (state is UserDetailsFetchSuccess) {
+      return (state as UserDetailsFetchSuccess).userProfile.grade!;
     }
     return "";
   }
@@ -89,6 +105,7 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
       String? allTimeScore,
       String? coins,
       String? status,
+      String? grade,
       String? mobile,
       String? email}) {
     //
@@ -98,12 +115,15 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
         email: email,
         mobile: mobile,
         coins: coins,
+        grade: grade,
         allTimeRank: allTimeRank,
         allTimeScore: allTimeScore,
         name: name,
         profileUrl: profileUrl,
         status: status,
       );
+      
+
 
       emit((UserDetailsFetchSuccess(userDetails)));
     }

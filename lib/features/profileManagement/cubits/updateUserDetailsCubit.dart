@@ -26,7 +26,7 @@ class UpdateUserDetailCubit extends Cubit<UpdateUserDetailState> {
     emit(newState);
   }
 
-  void updateProfile({required String userId, required String email, required String name, required String mobile}) async {
+  void updateProfile({required String userId, required String email, required String name, required String mobile , required String grade}) async {
     emit(UpdateUserDetailInProgress());
     _profileManagementRepository
         .updateProfile(
@@ -34,6 +34,7 @@ class UpdateUserDetailCubit extends Cubit<UpdateUserDetailState> {
       email: email,
       mobile: mobile,
       name: name,
+      grade : grade ,
     )
         .then((value) {
       emit(UpdateUserDetailSuccess());

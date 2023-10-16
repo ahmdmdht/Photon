@@ -12,21 +12,22 @@ class SignUpInitial extends SignUpState {}
 
 class SignUpProgress extends SignUpState {
   final AuthProvider authProvider;
+
   SignUpProgress(this.authProvider);
 }
 
-class SignUpSuccess extends SignUpState {
-
-}
+class SignUpSuccess extends SignUpState {}
 
 class SignUpFailure extends SignUpState {
   final String errorMessage;
   final AuthProvider authProvider;
-  SignUpFailure(this.errorMessage,this.authProvider);
+
+  SignUpFailure(this.errorMessage, this.authProvider);
 }
 
 class SignUpCubit extends Cubit<SignUpState> {
   final AuthRepository _authRepository;
+
   SignUpCubit(this._authRepository) : super(SignUpInitial());
 
   //signUp user
@@ -37,14 +38,15 @@ class SignUpCubit extends Cubit<SignUpState> {
       required String grade}) {
     //emitting signup progress state
     emit(SignUpProgress(authProvider));
-    _authRepository.signUpUser(email, password ,grade ).then((value) =>
+    _authRepository.signUpUser(email: email,password:  password ,grade: grade).then((value) {
+
+      emit(SignUpSuccess());
+
+    }
         //success
-        emit(SignUpSuccess())).catchError((e) {
+        ).catchError((e) {
       //failure
-      emit(SignUpFailure(e.toString(),authProvider));
+      emit(SignUpFailure(e.toString(), authProvider));
     });
   }
-
-
-
 }

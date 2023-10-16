@@ -86,6 +86,7 @@ class _EditProfileFieldDialogState extends State<EditProfileFieldDialog> {
                           email: widget.fieldTitle == "Email" ? textEditingController.text.trim() : userProfile.email ?? "",
                           mobile: widget.fieldTitle == "Mobile Number" ? textEditingController.text.trim() : userProfile.mobileNumber ?? "",
                           name: widget.fieldTitle == "Name" ? textEditingController.text.trim() : userProfile.name ?? "",
+                          grade: widget.fieldTitle == "Grade" ? textEditingController.text.trim() : userProfile.name ?? "",
                         );
                       },
                 child: Text(state is UpdateUserDetailInProgress ? AppLocalization.of(context)!.getTranslatedValues("updatingLbl")! : AppLocalization.of(context)!.getTranslatedValues("updateLbl")!,

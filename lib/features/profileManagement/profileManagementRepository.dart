@@ -151,10 +151,11 @@ class ProfileManagementRepository {
       {required String userId,
       required String email,
       required String name,
+        required String grade ,
       required String mobile}) async {
     try {
       await _profileManagementRemoteDataSource.updateProfile(
-          userId: userId, email: email, mobile: mobile, name: name);
+          userId: userId, email: email, mobile: mobile, name: name ,grade:grade);
     } catch (e) {
       throw ProfileManagementException(errorMessageCode: e.toString());
     }

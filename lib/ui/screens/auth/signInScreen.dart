@@ -14,11 +14,17 @@ import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.d
 import 'package:flutterquiz/ui/screens/auth/widgets/termsAndCondition.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 import 'package:flutterquiz/ui/widgets/customRoundedButton.dart';
+import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/validators.dart';
+import 'package:hive/hive.dart';
+
+import '../../../utils/constants.dart';
 
 class SignInScreen extends StatefulWidget {
+
+
   @override
   SignInScreenState createState() => SignInScreenState();
 }
@@ -84,6 +90,8 @@ class SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+
+
 
   Widget signUpText() {
     return GestureDetector(
@@ -273,6 +281,7 @@ class SignInScreenState extends State<SignInScreen> {
                       {
                         context.read<SignInCubit>().signInUser(
                             AuthProvider.email,
+                            grade:Hive.box(authBox).get(gradeKey) ,
                             email: edtEmail.text.trim(),
                             password: edtPwd.text.trim());
                       }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/main.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/apiUtils.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -45,6 +46,8 @@ class LeaderBoardMonthlyCubit extends Cubit<LeaderBoardMonthlyState> {
     String? offset,
   }) async {
     try {
+
+
       Map<String, String> body = {
         accessValueKey: accessValue,
         limitKey: limit,
@@ -57,6 +60,12 @@ class LeaderBoardMonthlyCubit extends Cubit<LeaderBoardMonthlyState> {
       final response = await http.post(Uri.parse(getMonthlyLeaderboardUrl),
           body: body, headers: await ApiUtils.getHeaders());
       final responseJson = jsonDecode(response.body);
+      print("asdasdasdasd");
+
+      logger.e(responseJson);
+
+
+      logger.w(responseJson);
       if (responseJson['error']) {
         throw LeaderBoardException(errorMessageCode: responseJson['message']);
       }

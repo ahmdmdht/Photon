@@ -57,7 +57,7 @@ class _SelectProfilePictureScreen extends State<SelectProfilePictureScreen> {
   TextEditingController inviteTextEditingController = TextEditingController();
   bool iHaveInviteCode = false;
 
-  //convert image to file
+
   Future<void> uploadProfileImage(String imageName) async {
     final byteData =
         await rootBundle.load(UiUtils.getprofileImagePath(imageName));

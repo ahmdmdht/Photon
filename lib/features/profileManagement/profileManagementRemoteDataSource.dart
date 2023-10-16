@@ -245,6 +245,7 @@ class ProfileManagementRemoteDataSource {
       {required String userId,
       required String email,
       required String name,
+      required String grade,
       required String mobile}) async {
     try {
       //body of post request
@@ -253,6 +254,7 @@ class ProfileManagementRemoteDataSource {
         userIdKey: userId,
         emailKey: email,
         nameKey: name,
+        gradeKey : grade ,
         mobileKey: mobile
       };
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterquiz/main.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:flutterquiz/utils/apiUtils.dart';
 import 'package:flutterquiz/utils/constants.dart';
@@ -57,6 +58,7 @@ class LeaderBoardAllTimeCubit extends Cubit<LeaderBoardAllTimeState> {
       final responseJson = jsonDecode(response.body);
 
       print("jsonResponse::=$responseJson");
+      logger.t(responseJson);
 
       if (responseJson['error']) {
         throw LeaderBoardException(errorMessageCode: responseJson['message']);

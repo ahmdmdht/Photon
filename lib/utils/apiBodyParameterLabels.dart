@@ -7,6 +7,8 @@ final String emailKey = 'email';
 final String profileKey = 'profile';
 final String mobileKey = 'mobile';
 final String fcmIdKey = 'fcm_id';
+final String gradeKey = 'grade';
+
 final String imageKey = 'image';
 final String idKey = 'id';
 final String languageIdKey = 'language_id';

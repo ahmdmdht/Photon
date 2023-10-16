@@ -8,9 +8,12 @@ import 'package:flutterquiz/features/auth/cubits/authCubit.dart';
 import 'package:flutterquiz/features/auth/cubits/signUpCubit.dart';
 import 'package:flutterquiz/ui/screens/auth/widgets/termsAndCondition.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
+import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
+import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/validators.dart';
+import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -23,8 +26,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  List<String> categories = ['1', '2', '3', 'None'];
-  String selectedValue = "None";
+
+  int  ? selectedGrade= 1 ; // Initial value
+
 
   bool _obscureText = true, _obscureTextCn = true, isLoading = false;
   TextEditingController edtEmail = TextEditingController();
@@ -66,17 +70,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: MediaQuery.of(context).size.height * .05,
             ),
             showTopImage(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
+
+            Container(
+
+              alignment: Alignment.centerLeft,
+
+              padding: EdgeInsetsDirectional.only(start: 20.0),
+              height: 60.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Theme.of(context).backgroundColor,
+              ),
+              child:  DropdownButton<int>(
+
+                dropdownColor: Colors.white,
+
+                underline: SizedBox(),
+                iconSize: 30,
+                isExpanded: true,
+
+                padding: EdgeInsets.only(right:10 ),
+
+                value: selectedGrade,
+
+
+                items: [
+                  DropdownMenuItem<int>(
+                    value: 1,
+                    child: Text('First grade secondary' ,style:  TextStyle(
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),),
+                  ),
+                  DropdownMenuItem<int>(
+                    value: 2,
+                    child: Text('Second grade secondary' ,style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),),
+                  ),
+                  DropdownMenuItem<int>(
+                    value: 3,
+                    child: Text('Third grade secondary' ,style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    selectedGrade = value!;
+                  });
+                },
+              ),
             ),
-            dropDownList(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
+              height: MediaQuery.of(context).size.height * .02,
             ),
             showEmail(),
             SizedBox(
               height: MediaQuery.of(context).size.height * .02,
             ),
+
             showPassword(),
             SizedBox(
               height: MediaQuery.of(context).size.height * .02,
@@ -94,31 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget dropDownList() {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(),
-      child: DropdownButton<String>(
-        dropdownColor: Theme.of(context).cardColor,
-        value: selectedValue,
-        underline: SizedBox(),
-        style: TextStyle(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),
-        items: categories
-            .map((category) => DropdownMenuItem<String>(
-                  value: category,
-                  child: Text(category),
-                ))
-            .toList(),
-        onChanged: (value) {
-          setState(() {
-            selectedValue = value!;
-          });
-          //cubit class is missing to change state
-        },
-      ),
-    );
-  }
+
 
   Widget signUpText() {
     return Row(
@@ -375,7 +400,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (_formKey.currentState!.validate()) {
                       //calling signup user
                       context.read<SignUpCubit>().signUpUser(authProvider: AuthProvider.email,
-                         email:  edtEmail.text.trim(),password:  edtPwd.text.trim() ,grade:selectedValue );
+                         email:  edtEmail.text.trim(),password:  edtPwd.text.trim() ,grade: selectedGrade.toString() );
+                      Hive.box(authBox).put(gradeKey, selectedGrade.toString());
+
                       resetForm();
                     }
                   },
