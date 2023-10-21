@@ -105,8 +105,15 @@ final String getCategoryUrl = "${baseUrl}get_categories";
 final String getQuestionsByLevelUrl = "${baseUrl}get_questions_by_level";
 final String getQuestionForDailyQuizUrl = "${baseUrl}get_daily_quiz";
 final String getLevelUrl = "${baseUrl}get_level_data";
+
+
 final String getSubCategoryUrl = "${baseUrl}get_subcategory_by_maincategory";
+
+
 final String getQuestionForSelfChallengeUrl = "${baseUrl}get_questions_for_self_challenge";
+
+
+
 final String updateLevelUrl = "${baseUrl}set_level_data";
 final String getMonthlyLeaderboardUrl = "${baseUrl}get_monthly_leaderboard";
 final String getDailyLeaderboardUrl = "${baseUrl}get_daily_leaderboard";
