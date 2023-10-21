@@ -15,7 +15,7 @@
 
 
     <application
-        android:label="Elite Quiz"
+        android:label="Photon"
         android:versionCode="2"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"

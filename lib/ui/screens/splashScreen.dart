@@ -202,7 +202,7 @@ class _SplashScreenState extends State<SplashScreen>
                   right: MediaQuery.of(context).size.width * 0.2),
               child: Center(
                 child: SvgPicture.asset(
-                  UiUtils.getImagePath("splash_logo.svg"),
+                  UiUtils.getImagePath("splash_logo.png"),
                   color: Theme.of(context).primaryColor,
                 ),
               ),
