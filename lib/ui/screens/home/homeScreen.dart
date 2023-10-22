@@ -1139,6 +1139,7 @@ class _HomeScreenState extends State<HomeScreen>
                                       children: [
                                         Row(
                                           children: [
+
                                             SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/app/routes.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
+import 'package:flutterquiz/features/quiz/cubits/quizCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/unlockedLevelCubit.dart';
 import 'package:flutterquiz/features/quiz/cubits/subCategoryCubit.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
@@ -22,10 +23,13 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 class SubCategoryAndLevelScreen extends StatefulWidget {
   final String? category;
   final String? categoryName;
+
   const SubCategoryAndLevelScreen({Key? key, this.category, this.categoryName})
       : super(key: key);
+
   @override
   _SubCategoryAndLevelScreen createState() => _SubCategoryAndLevelScreen();
+
   static Route<dynamic> route(RouteSettings routeSettings) {
     Map arguments = routeSettings.arguments as Map;
     return CupertinoPageRoute(
@@ -53,10 +57,18 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
   @override
   void initState() {
     pageController = PageController(viewportFraction: 0.635);
-    context.read<SubCategoryCubit>().fetchSubCategory(
-          widget.category!,
-          context.read<UserDetailsCubit>().getUserId(),
-        );
+
+    context.read<QuizCategoryCubit>().getQuizCategory(
+        languageId: "2",
+        type: "1",
+        userId: context.read<UserDetailsCubit>().getUserId(),
+        parentID: widget.category);
+
+    //
+    // context.read<SubCategoryCubit>().fetchSubCategory(
+    //       widget.category!,
+    //       context.read<UserDetailsCubit>().getUserId(),
+    //     );
     super.initState();
   }
 
@@ -189,7 +201,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
         children: [
           Column(
             children: <Widget>[
-            //  _buildBackAndLanguageButton(),
+              //  _buildBackAndLanguageButton(),
               SizedBox(
                 height: 35.0,
               ),
@@ -317,6 +329,7 @@ class SubcategoryContainer extends StatefulWidget {
   final int index;
   final int currentIndex;
   final Subcategory subcategory;
+
   SubcategoryContainer(
       {Key? key,
       required this.currentIndex,
@@ -390,7 +403,7 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
                 Text(
                   "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
                   style: TextStyle(
-                    color:Theme.of(context).canvasColor.withOpacity(0.8),
+                    color: Theme.of(context).canvasColor.withOpacity(0.8),
                     fontSize: 18.0,
                   ),
                 ),

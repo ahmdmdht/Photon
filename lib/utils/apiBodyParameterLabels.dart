@@ -2,6 +2,7 @@ final String accessValueKey = 'access_key';
 final String userIdKey = 'user_id';
 final String firebaseIdKey = 'firebase_id';
 final String typeKey = 'type';
+final String parentIDKey = 'parent_id';
 final String nameKey = 'name';
 final String emailKey = 'email';
 final String profileKey = 'profile';

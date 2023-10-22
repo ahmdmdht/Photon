@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutterquiz/main.dart';
 import 'package:flutterquiz/utils/apiBodyParameterLabels.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutterquiz/features/quiz/quizException.dart';
@@ -135,7 +136,7 @@ class QuizRemoteDataSource {
 	level:2
 	category:5 {or}
 	subcategory:9
-	language_id:2  
+	language_id:2
    */
 
   Future<List?> getQuestionsForQuizZone(
@@ -269,14 +270,16 @@ class QuizRemoteDataSource {
   Future<dynamic> getCategory(
       {required String languageId,
       required String type,
-      required String userId}) async {
+      required String userId,
+      String? parentID}) async {
     try {
       //body of post request
       Map<String, String> body = {
         accessValueKey: accessValue,
         languageIdKey: languageId,
         userIdKey: userId,
-        typeKey: type
+        typeKey: type,
+        parentIDKey: parentID??"1"
       };
 
       print("params$body");
@@ -289,6 +292,11 @@ class QuizRemoteDataSource {
       final response = await http.post(Uri.parse(getCategoryUrl),
           body: body, headers: await ApiUtils.getHeaders());
       final responseJson = jsonDecode(response.body);
+
+
+
+      print("------------------ this is from category ------------");
+      logger.w(responseJson);
 
       if (responseJson['error']) {
         throw QuizException(errorMessageCode: responseJson['message']);
@@ -303,10 +311,10 @@ class QuizRemoteDataSource {
     }
   }
 
-  Future<dynamic> getCategorywithoutuser(
-      {required String languageId,
-        required String type,
-        }) async {
+  Future<dynamic> getCategorywithoutuser({
+    required String languageId,
+    required String type,
+  }) async {
     try {
       //body of post request
       Map<String, String> body = {
@@ -338,7 +346,6 @@ class QuizRemoteDataSource {
       throw QuizException(errorMessageCode: defaultErrorMessageCode);
     }
   }
-
 
   Future<List?> getQuestionsForSelfChallenge(
       {required String languageId,
@@ -394,6 +401,9 @@ class QuizRemoteDataSource {
         categoryKey: category,
         userIdKey: userId,
       };
+
+      print("this is body form get Sub Category ----------> $body");
+
       final response = await http.post(Uri.parse(getSubCategoryUrl),
           body: body, headers: await ApiUtils.getHeaders());
       final responseJson = jsonDecode(response.body);
@@ -626,7 +636,7 @@ class QuizRemoteDataSource {
         category:1
         subcategory:2   //{optional}
         type_id:1       // for fun_n_learn_id
-  
+
    */
   Future<void> setQuizCategoryPlayed(
       {required String type,
