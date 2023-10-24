@@ -189,7 +189,7 @@ class _SubCategoryAndLevelScreen extends State<SubCategoryAndLevelScreen> {
         children: [
           Column(
             children: <Widget>[
-            //  _buildBackAndLanguageButton(),
+              //  _buildBackAndLanguageButton(),
               SizedBox(
                 height: 35.0,
               ),
@@ -390,7 +390,7 @@ class _SubcategoryContainerState extends State<SubcategoryContainer>
                 Text(
                   "${AppLocalization.of(context)!.getTranslatedValues(questionsKey)!} : ${widget.subcategory.noOfQue!}",
                   style: TextStyle(
-                    color:Theme.of(context).canvasColor.withOpacity(0.8),
+                    color: Theme.of(context).canvasColor.withOpacity(0.8),
                     fontSize: 18.0,
                   ),
                 ),

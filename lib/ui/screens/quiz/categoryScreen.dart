@@ -19,17 +19,33 @@ import 'package:flutterquiz/utils/uiUtils.dart';
 
 class CategoryScreen extends StatefulWidget {
   final QuizTypes quizType;
+  String categoryId, parentId;
 
-  CategoryScreen({required this.quizType});
+  CategoryScreen(
+      {required this.quizType,
+      required this.categoryId,
+      required this.parentId});
 
   @override
   _CategoryScreen createState() => _CategoryScreen();
 
   static Route<dynamic> route(RouteSettings routeSettings) {
     Map arguments = routeSettings.arguments as Map;
+    print("all params");
+    print(arguments);
+    String cateId = "0";
+    String parentId = "";
+    try {
+      cateId = arguments['typeId'] as String;
+    } catch (_) {}
+    try {
+      parentId = arguments['parentId'] as String;
+    } catch (_) {}
     return CupertinoPageRoute(
         builder: (_) => CategoryScreen(
               quizType: arguments['quizType'] as QuizTypes,
+              categoryId: cateId,
+              parentId: parentId,
             ));
   }
 }
@@ -43,10 +59,10 @@ class _CategoryScreen extends State<CategoryScreen> {
       context.read<InterstitialAdCubit>().showAd(context);
     });
     context.read<QuizCategoryCubit>().getQuizCategory(
-          languageId: UiUtils.getCurrentQuestionLanguageId(context),
-          type: UiUtils.getCategoryTypeNumberFromQuizType(widget.quizType),
-          userId: context.read<UserDetailsCubit>().getUserId(),
-        );
+        languageId: UiUtils.getCurrentQuestionLanguageId(context),
+        type: UiUtils.getCategoryTypeNumberFromQuizType(widget.quizType),
+        userId: context.read<UserDetailsCubit>().getUserId(),
+        parentId: widget.parentId);
     super.initState();
   }
 
@@ -112,11 +128,11 @@ class _CategoryScreen extends State<CategoryScreen> {
               ),
               onTapRetry: () {
                 context.read<QuizCategoryCubit>().getQuizCategory(
-                      languageId: UiUtils.getCurrentQuestionLanguageId(context),
-                      type: UiUtils.getCategoryTypeNumberFromQuizType(
-                          widget.quizType),
-                      userId: context.read<UserDetailsCubit>().getUserId(),
-                    );
+                    languageId: UiUtils.getCurrentQuestionLanguageId(context),
+                    type: UiUtils.getCategoryTypeNumberFromQuizType(
+                        widget.quizType),
+                    userId: context.read<UserDetailsCubit>().getUserId(),
+                    parentId: widget.categoryId);
               },
             );
           }
@@ -133,43 +149,61 @@ class _CategoryScreen extends State<CategoryScreen> {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
+                  /// level only
+
                   if (widget.quizType == QuizTypes.quizZone) {
                     //noOf means how many subcategory it has
                     //if subcategory is 0 then check for level
 
-                    if (categoryList[index].noOf == "0") {
-                      //means this category does not have level
-                      if (categoryList[index].maxLevel == "0") {
-                        //direct move to quiz screen pass level as 0
-                        Navigator.of(context)
-                            .pushNamed(Routes.quiz, arguments: {
-                          "numberOfPlayer": 1,
-                          "quizType": QuizTypes.quizZone,
-                          "categoryId": categoryList[index].id,
-                          "subcategoryId": "",
-                          "level": "0",
-                          "subcategoryMaxLevel": "0",
-                          "unlockedLevel": 0,
-                          "contestId": "",
-                          "comprehensionId": "",
-                          "quizName": "Quiz Zone"
-                        });
+                    if (categoryList[index].hasChild == "1") {
+                      Navigator.of(context)
+                          .pushNamed(Routes.category, arguments: {
+                        "quizType": QuizTypes.quizZone,
+                        "typeId": categoryList[index].id,
+                        "parentId": categoryList[index].id
+                      });
+                    } else if (categoryList[index].hasChild == "0") {
+                      if (int.parse(categoryList[index].noOf.toString()) > 0) {
+                        Navigator.of(context).pushNamed(
+                          Routes.subcategoryAndLevel,
+                          arguments: {
+                            "category_id": categoryList[index].id,
+                            "category_name": categoryList[index].categoryName,
+                          },
+                        );
                       } else {
-                        //navigate to level screen
-                        Navigator.of(context)
-                            .pushNamed(Routes.levels, arguments: {
-                          "maxLevel": categoryList[index].maxLevel,
-                          "categoryId": categoryList[index].id,
-                        });
+                        if (categoryList[index].maxLevel == "0") {
+                          Navigator.of(context)
+                              .pushNamed(Routes.quiz, arguments: {
+                            "numberOfPlayer": 1,
+                            "quizType": QuizTypes.quizZone,
+                            "categoryId": categoryList[index].id,
+                            "subcategoryId": "",
+                            "level": "0",
+                            "subcategoryMaxLevel": "0",
+                            "unlockedLevel": 0,
+                            "contestId": "",
+                            "comprehensionId": "",
+                            "quizName": "Quiz Zone"
+                          });
+                        } else if (int.parse(
+                                categoryList[index].maxLevel.toString()) >
+                            0) {
+                          Navigator.of(context)
+                              .pushNamed(Routes.levels, arguments: {
+                            "maxLevel": categoryList[index].maxLevel,
+                            "categoryId": categoryList[index].id,
+                          });
+                        } else {
+                          Navigator.of(context).pushNamed(
+                            Routes.subcategoryAndLevel,
+                            arguments: {
+                              "category_id": categoryList[index].id,
+                              "category_name": categoryList[index].categoryName,
+                            },
+                          );
+                        }
                       }
-                    } else {
-                      Navigator.of(context).pushNamed(
-                        Routes.subcategoryAndLevel,
-                        arguments: {
-                          "category_id": categoryList[index].id,
-                          "category_name": categoryList[index].categoryName,
-                        },
-                      );
                     }
                   } else if (widget.quizType == QuizTypes.audioQuestions) {
                     //noOf means how many subcategory it has
@@ -242,6 +276,201 @@ class _CategoryScreen extends State<CategoryScreen> {
                       });
                     }
                   }
+
+                  // if (widget.quizType == QuizTypes.quizZone) {
+                  //   //noOf means how many subcategory it has
+                  //   //if subcategory is 0 then check for level
+                  //   print(categoryList[index].noOf.toString() + "-----++");
+                  //
+                  //   if (int.parse(categoryList[index].no_of_child.toString()) >
+                  //       0) {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.quizZone,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].id
+                  //     });
+                  //   } else if (categoryList[index].noOf == "0") {
+                  //     //means this category does not have level
+                  //     if (categoryList[index].maxLevel == "0") {
+                  //       //direct move to quiz screen pass level as 0
+                  //
+                  //       Navigator.of(context)
+                  //           .pushNamed(Routes.quiz, arguments: {
+                  //         "numberOfPlayer": 1,
+                  //         "quizType": QuizTypes.quizZone,
+                  //         "categoryId": categoryList[index].id,
+                  //         "subcategoryId": "",
+                  //         "level": "0",
+                  //         "subcategoryMaxLevel": "0",
+                  //         "unlockedLevel": 0,
+                  //         "contestId": "",
+                  //         "comprehensionId": "",
+                  //         "quizName": "Quiz Zone"
+                  //       });
+                  //     } else {
+                  //       //navigate to level screen
+                  //       print("navigate to level screen");
+                  //       Navigator.of(context)
+                  //           .pushNamed(Routes.levels, arguments: {
+                  //         "maxLevel": categoryList[index].maxLevel,
+                  //         "categoryId": categoryList[index].id,
+                  //       });
+                  //     }
+                  //   } else {
+                  //     print("navigate to subcategoryAndLevel");
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.subcategoryAndLevel, arguments: {
+                  //       "category_name": categoryList[index].categoryName,
+                  //       "category_id": categoryList[index].id
+                  //     });
+                  //   }
+                  // } else if (widget.quizType == QuizTypes.selfChallenge) {
+                  //   //if therse is noo subcategory then get questions by category
+                  //   if (int.parse(categoryList[index].no_of_child.toString()) >
+                  //       0) {
+                  //     print("Case 1");
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.selfChallenge,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].parent_id
+                  //     });
+                  //     // Navigator.of(context).pushNamed(Routes.selfChallenge, arguments: {
+                  //     //   "categoryId": categoryList[index].id,
+                  //     // });
+                  //   } else if (categoryList[index].noOf == "0") {
+                  //     print("Case 2");
+                  //     // context.read<QuizCategoryCubit>().updateState(QuizCategoryInitial());
+                  //     // context.read<SubCategoryCubit>().updateState(SubCategoryInitial());
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.selfChallenge, arguments: {
+                  //       "categoryId": categoryList[index].id,
+                  //     });
+                  //     // Navigator.of(context)
+                  //     //     .pushNamed(Routes.selfChallenge, arguments: {
+                  //     //   "type": "category",
+                  //     //   "typeId": categoryList[index].id,
+                  //     //   "isPlayed": categoryList[index].isPlayed,
+                  //     // });
+                  //   } else {
+                  //     print("Case 3");
+                  //     print("panda2 " + categoryList[index].id.toString());
+                  //
+                  //     // Navigator.of(context).pushNamed(Routes.subcategoryAndLevel,
+                  //     //     arguments: categoryList[index].id);
+                  //
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.selfChallenge, arguments: {
+                  //       "categoryId": categoryList[index].id,
+                  //     });
+                  //   }
+                  // } else if (widget.quizType == QuizTypes.audioQuestions) {
+                  //   //noOf means how many subcategory it has
+                  //   if (int.parse(categoryList[index].no_of_child.toString()) >
+                  //       0) {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.audioQuestions,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].parent_id
+                  //     });
+                  //   } else if (categoryList[index].noOf == "0") {
+                  //     //
+                  //     Navigator.of(context).pushNamed(Routes.quiz, arguments: {
+                  //       "numberOfPlayer": 1,
+                  //       "quizType": QuizTypes.audioQuestions,
+                  //       "categoryId": categoryList[index].id,
+                  //       "isPlayed": categoryList[index].isPlayed,
+                  //     });
+                  //   } else {
+                  //     //
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.subCategory, arguments: {
+                  //       "categoryId": categoryList[index].id,
+                  //       "quizType": widget.quizType,
+                  //     });
+                  //   }
+                  // } else if (widget.quizType == QuizTypes.guessTheWord) {
+                  //   //if therse is noo subcategory then get questions by category
+                  //   if (int.parse(categoryList[index].no_of_child.toString()) >
+                  //       0) {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.guessTheWord,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].parent_id
+                  //     });
+                  //   } else if (categoryList[index].noOf == "0") {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.guessTheWord, arguments: {
+                  //       "type": "category",
+                  //       "typeId": categoryList[index].id,
+                  //       "isPlayed": categoryList[index].isPlayed,
+                  //     });
+                  //   } else {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.subCategory, arguments: {
+                  //       "categoryId": categoryList[index].id,
+                  //       "quizType": widget.quizType,
+                  //     });
+                  //   }
+                  // } else if (widget.quizType == QuizTypes.funAndLearn) {
+                  //   //if therse is no subcategory then get questions by category
+                  //   if (int.parse(categoryList[index].no_of_child.toString()) >
+                  //       0) {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.funAndLearn,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].parent_id
+                  //     });
+                  //   } else if (categoryList[index].noOf == "0") {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.funAndLearnTitle, arguments: {
+                  //       "type": "category",
+                  //       "typeId": categoryList[index].id,
+                  //     });
+                  //   } else if (categoryList[index].parent_id == "1") {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.funAndLearn,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].parent_id
+                  //     });
+                  //   } else {
+                  //     // print("category id: "+ categoryList[index].id.toString());
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.subCategory, arguments: {
+                  //       "categoryId": categoryList[index].id,
+                  //       "quizType": widget.quizType,
+                  //     });
+                  //   }
+                  // } else if (widget.quizType == QuizTypes.mathMania) {
+                  //   //if therse is noo subcategory then get questions by category
+                  //   if (int.parse(categoryList[index].no_of_child.toString()) >
+                  //       0) {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.category, arguments: {
+                  //       "quizType": QuizTypes.mathMania,
+                  //       "typeId": categoryList[index].id,
+                  //       "parentId": categoryList[index].parent_id
+                  //     });
+                  //   } else if (categoryList[index].noOf == "0") {
+                  //     Navigator.of(context).pushNamed(Routes.quiz, arguments: {
+                  //       "numberOfPlayer": 1,
+                  //       "quizType": QuizTypes.mathMania,
+                  //       "categoryId": categoryList[index].id,
+                  //       "isPlayed": categoryList[index].isPlayed,
+                  //     });
+                  //   } else {
+                  //     Navigator.of(context)
+                  //         .pushNamed(Routes.subCategory, arguments: {
+                  //       "categoryId": categoryList[index].id,
+                  //       "quizType": widget.quizType,
+                  //     });
+                  //   }
+                  // }
                 },
                 child: Container(
                   height: 130,
@@ -277,9 +506,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                                 vertical: 12.5, horizontal: 5.0),
                             margin: EdgeInsets.all(15),
                             decoration: BoxDecoration(
-                                color: Theme
-                                    .of(context)
-                                    .backgroundColor,
+                                color: Theme.of(context).backgroundColor,
                                 borderRadius: BorderRadius.circular(15.0)),
                             width: boxConstraints.maxWidth,
                             height: boxConstraints.maxHeight,
@@ -290,8 +517,7 @@ class _CategoryScreen extends State<CategoryScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       border: Border.all(
-                                          color: Theme
-                                              .of(context)
+                                          color: Theme.of(context)
                                               .colorScheme
                                               .onTertiary
                                               .withOpacity(0.1))),
@@ -316,16 +542,14 @@ class _CategoryScreen extends State<CategoryScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
                                       border: Border.all(
-                                          color: Theme
-                                              .of(context)
+                                          color: Theme.of(context)
                                               .colorScheme
                                               .onTertiary
                                               .withOpacity(0.1))),
                                   child: Icon(
                                     Icons.navigate_next_outlined,
                                     size: 40,
-                                    color: Theme
-                                        .of(context)
+                                    color: Theme.of(context)
                                         .colorScheme
                                         .onTertiary,
                                   ),
@@ -334,23 +558,21 @@ class _CategoryScreen extends State<CategoryScreen> {
                                   categoryList[index].categoryName!,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    color: Theme
-                                        .of(context)
+                                    color: Theme.of(context)
                                         .colorScheme
                                         .onTertiary,
                                   ),
                                 ),
                                 subtitle: widget.quizType == QuizTypes.quizZone
                                     ? Text(
-                                  "Question: " +
-                                      categoryList[index].noOfQqe!,
-                                  style: TextStyle(
-                                      color: Theme
-                                          .of(context)
-                                          .colorScheme
-                                          .onTertiary
-                                          .withOpacity(0.6)),
-                                )
+                                        "Question: " +
+                                            categoryList[index].noOfQqe!,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onTertiary
+                                                .withOpacity(0.6)),
+                                      )
                                     : SizedBox())),
                       ],
                     );

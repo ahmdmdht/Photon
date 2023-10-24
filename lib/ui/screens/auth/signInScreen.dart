@@ -113,9 +113,8 @@ class SignInScreenState extends State<SignInScreen> {
     return SizedBox(
       height: 200,
       width: 200,
-      child: SvgPicture.asset(
-        UiUtils.getImagePath("splash_logo.svg"),
-        color: Theme.of(context).primaryColor,
+      child: Image.asset(
+        UiUtils.getImagePath("splash_logo.png"),
       ),
     );
   }
@@ -541,6 +540,7 @@ class SignInScreenState extends State<SignInScreen> {
                         // context.read<SignInCubit>().signInUser(AuthProvider.fb);
                       },
                     ),
+             SizedBox(width: 20,),
              /* Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: InkWell(

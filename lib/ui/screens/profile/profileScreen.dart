@@ -289,7 +289,7 @@ class ProfileScreen extends StatelessWidget {
                       leadingIcon: "name_icon.svg",
                       onEdit: () {
                         editProfileFieldBottomSheet(
-                          nameLbl,
+                          "${AppLocalization.of(context)!.getTranslatedValues('edit_info')!}",
                           state.userProfile.name!.isEmpty
                               ? ""
                               : state.userProfile.name!,

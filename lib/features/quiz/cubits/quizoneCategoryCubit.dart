@@ -25,11 +25,11 @@ class QuizoneCategoryCubit extends Cubit<QuizoneCategoryState> {
   QuizoneCategoryCubit(this._quizRepository) : super(QuizoneCategoryInitial());
 
   void getQuizCategory(
-      {required String languageId,
-      required String userId}) async {
+      {required String languageId, required String userId}) async {
     emit(QuizoneCategoryProgress());
     _quizRepository
-        .getCategory(languageId: languageId, type: "1", userId: userId)
+        .getCategory(
+            languageId: languageId, type: "1", userId: userId, parentId: "")
         .then(
           (val) => emit(QuizoneCategorySuccess(val)),
         )
@@ -38,15 +38,13 @@ class QuizoneCategoryCubit extends Cubit<QuizoneCategoryState> {
     });
   }
 
-
-  void getQuizWithoutuserCategory(
-      {required String languageId}) async {
+  void getQuizWithoutuserCategory({required String languageId}) async {
     emit(QuizoneCategoryProgress());
     _quizRepository
         .getCategorywithoutuser(languageId: languageId, type: "1")
         .then(
           (val) => emit(QuizoneCategorySuccess(val)),
-    )
+        )
         .catchError((e) {
       emit(QuizoneCategoryFailure(e.toString()));
     });

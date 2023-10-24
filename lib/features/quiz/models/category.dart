@@ -6,7 +6,9 @@ class Category {
       rowOrder,
       noOf,
       noOfQqe,
-      maxLevel;
+      maxLevel,
+      parent_id,
+      hasChild;
   final bool isPlayed;
 
   Category(
@@ -18,10 +20,13 @@ class Category {
       this.noOfQqe,
       this.maxLevel,
       required this.isPlayed,
-      this.id});
+      this.id,
+      this.parent_id,
+      this.hasChild});
   factory Category.fromJson(Map<String, dynamic> jsonData) {
     return Category(
-        isPlayed: jsonData['is_play'] == null ? true : jsonData['is_play'] == "1",
+        isPlayed:
+            jsonData['is_play'] == null ? true : jsonData['is_play'] == "1",
         id: jsonData["id"],
         languageId: jsonData["language_id"],
         categoryName: jsonData["category_name"],
@@ -29,6 +34,8 @@ class Category {
         rowOrder: jsonData["row_order"],
         noOf: jsonData["no_of"],
         noOfQqe: jsonData["no_of_que"],
-        maxLevel: jsonData["maxlevel"]);
+        maxLevel: jsonData["maxlevel"],
+        parent_id: jsonData['parent_id'],
+        hasChild: jsonData['has_child']);
   }
 }

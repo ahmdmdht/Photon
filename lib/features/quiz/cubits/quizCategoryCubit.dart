@@ -27,10 +27,15 @@ class QuizCategoryCubit extends Cubit<QuizCategoryState> {
   void getQuizCategory(
       {required String languageId,
       required String type,
-      required String userId}) async {
+      required String userId,
+      String? parentId}) async {
     emit(QuizCategoryProgress());
     _quizRepository
-        .getCategory(languageId: languageId, type: type, userId: userId)
+        .getCategory(
+            languageId: languageId,
+            type: type,
+            userId: userId,
+            parentId: parentId ?? "")
         .then(
           (val) => emit(QuizCategorySuccess(val)),
         )
@@ -39,21 +44,21 @@ class QuizCategoryCubit extends Cubit<QuizCategoryState> {
     });
   }
 
-
-  void getQuizwithoutUserCategory(
-      {required String languageId,
-        required String type,
-        }) async {
+  void getQuizwithoutUserCategory({
+    required String languageId,
+    required String type,
+  }) async {
     emit(QuizCategoryProgress());
     _quizRepository
         .getCategorywithoutuser(languageId: languageId, type: type)
         .then(
           (val) => emit(QuizCategorySuccess(val)),
-    )
+        )
         .catchError((e) {
       emit(QuizCategoryFailure(e.toString()));
     });
   }
+
   void updateState(QuizCategoryState updatedState) {
     emit(updatedState);
   }

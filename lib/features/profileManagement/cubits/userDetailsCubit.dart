@@ -37,8 +37,9 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
     try {
       UserProfile userProfile =
           await _profileManagementRepository.getUserDetailsById(firebaseId);
-      print("a7aaaaaaaaaaaaaaaaaaaaaa");
       print(userProfile.grade);
+
+
       emit(UserDetailsFetchSuccess(userProfile));
 
 

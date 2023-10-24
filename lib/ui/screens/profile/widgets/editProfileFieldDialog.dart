@@ -7,6 +7,8 @@ import 'package:flutterquiz/ui/widgets/errorMessageDialog.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:flutterquiz/utils/validators.dart';
 
+import '../../../../features/auth/cubits/authCubit.dart';
+
 class EditProfileFieldDialog extends StatefulWidget {
   final String fieldTitle; //value of fieldTitle will be from :  Email,Mobile Number,Name
   final String fieldValue; //
@@ -88,6 +90,10 @@ class _EditProfileFieldDialogState extends State<EditProfileFieldDialog> {
                           name: widget.fieldTitle == "Name" ? textEditingController.text.trim() : userProfile.name ?? "",
                           grade: widget.fieldTitle == "Grade" ? textEditingController.text.trim() : userProfile.name ?? "",
                         );
+
+
+                        context.read<UserDetailsCubit>().fetchUserDetails(
+                            context.read<AuthCubit>().getUserFirebaseId());
                       },
                 child: Text(state is UpdateUserDetailInProgress ? AppLocalization.of(context)!.getTranslatedValues("updatingLbl")! : AppLocalization.of(context)!.getTranslatedValues("updateLbl")!,
                     style: TextStyle(

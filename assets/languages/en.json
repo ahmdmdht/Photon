@@ -391,5 +391,11 @@
   "battleOfTheDay": "Battle’s of the day",
   "selfExamZone": "Self Exam Zone",
   "playDifferentZone": "Play Different Zone",
-  "guestMode": "To access this feature you need to Login!!"
+  "guestMode": "To access this feature you need to Login!!",
+  "thirdGradeSecondary" : "Third grade secondary",
+  "secondGradeSecondary" : "Third grade secondary",
+  "firstGradeSecondary" : "Third grade secondary",
+  "grade": "Grade",
+  "edit_info" : "Edit Information"
+
 }

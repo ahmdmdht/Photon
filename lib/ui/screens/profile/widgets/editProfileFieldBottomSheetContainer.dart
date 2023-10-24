@@ -9,6 +9,8 @@ import 'package:flutterquiz/utils/stringLabels.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
 import 'package:flutterquiz/utils/validators.dart';
 
+import '../../../../features/auth/cubits/authCubit.dart';
+
 class EditProfileFieldBottomSheetContainer extends StatefulWidget {
 
 
@@ -207,21 +209,21 @@ class _EditProfileFieldBottomSheetContainerState
                     items: [
                       DropdownMenuItem<int>(
                         value: 1,
-                        child: Text('First grade secondary' ,style:  TextStyle(
+                        child: Text(AppLocalization.of(context)!.getTranslatedValues('firstGradeSecondary')! ,style:  TextStyle(
                             fontSize: 15.0,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w400),),
                       ),
                       DropdownMenuItem<int>(
                         value: 2,
-                        child: Text('Second grade secondary' ,style:  TextStyle(
+                        child: Text(AppLocalization.of(context)!.getTranslatedValues('secondGradeSecondary')!,style:  TextStyle(
                             fontSize: 15.0,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w400),),
                       ),
                       DropdownMenuItem<int>(
                         value: 3,
-                        child: Text('Third grade secondary' ,style:  TextStyle(
+                        child: Text(AppLocalization.of(context)!.getTranslatedValues('thirdGradeSecondary')! ,style:  TextStyle(
                             fontSize: 15.0,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w400),),
@@ -321,6 +323,9 @@ class _EditProfileFieldBottomSheetContainerState
                                       : userProfile.name ?? "",
                                   grade: widget.selectedGrade.toString()
                                 );
+
+                                context.read<UserDetailsCubit>().fetchUserDetails(
+                                    context.read<AuthCubit>().getUserFirebaseId());
                               },
                         fontWeight: FontWeight.bold,
                         titleColor: Theme.of(context).backgroundColor,

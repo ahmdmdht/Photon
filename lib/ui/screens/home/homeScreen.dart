@@ -282,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen>
       }
       if (systemCubit.getIsDailyQuizAvailable() == "0") {
         playDifferentZone.removeWhere((element) => element == "dailyQuiz");
-        playDifferentImg.removeWhere((element) => element == "daily_quiz_icon.svg");
+        playDifferentImg
+            .removeWhere((element) => element == "daily_quiz_icon.svg");
         playDifferentZoneDesc
             .removeWhere((element) => element == "desDailyQuiz");
       }
@@ -300,15 +301,12 @@ class _HomeScreenState extends State<HomeScreen>
             .removeWhere((element) => element == "desFunAndLearn");
       }
 
-
-
       if (!systemCubit.getIsGuessTheWordAvailable()) {
         playDifferentZone.removeWhere((element) => element == "guessTheWord");
         playDifferentImg.removeWhere((element) => element == "guess_icon.svg");
         playDifferentZoneDesc
             .removeWhere((element) => element == "desGuessTheWord");
       }
-
 
       if (!systemCubit.getIsAudioQuestionAvailable()) {
         playDifferentZone.removeWhere((element) => element == "audioQuestions");
@@ -319,7 +317,8 @@ class _HomeScreenState extends State<HomeScreen>
       if (!systemCubit.isMathQuizAvailable()) {
         playDifferentZone.removeWhere((element) => element == "mathMania");
         playDifferentImg.removeWhere((element) => element == "maths_icon.svg");
-        playDifferentZoneDesc.removeWhere((element) => element == "desMathMania");
+        playDifferentZoneDesc
+            .removeWhere((element) => element == "desMathMania");
       }
       if (systemCubit.getIsExamAvailable() == "0") {
         examSelf.removeWhere((element) => element == "exam");
@@ -332,8 +331,6 @@ class _HomeScreenState extends State<HomeScreen>
             .removeWhere((element) => element == "challengeYourselfLbl");
         examSelfimg.removeWhere((element) => element == "self_challenge.svg");
       }
-
-
 
       if (systemCubit.getIsBattleModeGroupAvailable() == "0") {
         battleName.removeWhere((element) => element == "groupPlay");
@@ -568,7 +565,8 @@ class _HomeScreenState extends State<HomeScreen>
           if (widget.isGuest) {
             Navigator.of(context).pushNamed(Routes.menuScreen, arguments: true);
           } else {
-            Navigator.of(context).pushNamed(Routes.menuScreen, arguments: false);
+            Navigator.of(context)
+                .pushNamed(Routes.menuScreen, arguments: false);
           }
         },
         child: SlideTransition(
@@ -611,7 +609,6 @@ class _HomeScreenState extends State<HomeScreen>
                               child: RichText(
                                 maxLines: 1,
                                 text: TextSpan(
-
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold),
@@ -642,38 +639,32 @@ class _HomeScreenState extends State<HomeScreen>
                                     ]),
                               ),
                             ),
-                            Container(
-                              width: constaint.maxWidth * 0.6,
-                              child: RichText(
-                                maxLines: 1,
-                                text: TextSpan(
-
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold),
-                                    children: [
-                                      TextSpan(
-                                          text: "Grade" ,
-                                          style: TextStyle(
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onTertiary,
-                                          )),
-                                      TextSpan(
-                                        text:
-                                        " ${state.userProfile.grade ?? ""}",
+                            Builder(
+                              builder: (context) {
+                                return Container(
+                                  width: constaint.maxWidth * 0.6,
+                                  child: RichText(
+                                    maxLines: 1,
+                                    text: TextSpan(
                                         style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onTertiary,
-                                        ),
-                                      )
-                                    ]),
-                              ),
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold),
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                "${state.userProfile.grade == "1" ? "${AppLocalization.of(context)!.getTranslatedValues('firstGradeSecondary')!}" : state.userProfile.grade == "2" ? "${AppLocalization.of(context)!.getTranslatedValues('secondGradeSecondary')!}" : "${AppLocalization.of(context)!.getTranslatedValues('thirdGradeSecondary')!}"}",
+                                            style: TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onTertiary,
+                                            ),
+                                          )
+                                        ]),
+                                  ),
+                                );
+                              }
                             ),
                             Text(
                               AppLocalization.of(context)!
@@ -780,7 +771,9 @@ class _HomeScreenState extends State<HomeScreen>
                                   fontSize: 18.0, fontWeight: FontWeight.bold),
                               children: [
                                 TextSpan(
-                                    text: AppLocalization.of(context)!.getTranslatedValues(helloKey) ?? helloKey,
+                                    text: AppLocalization.of(context)!
+                                            .getTranslatedValues(helloKey) ??
+                                        helloKey,
                                     style: TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
@@ -875,13 +868,6 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.transparent,
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(0, 40),
-                                blurRadius: 30,
-                                spreadRadius: 5,
-                                color: Color(0xffEF5488))
-                          ],
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(
                                   boxConstraints.maxWidth * (0.525)),
@@ -929,8 +915,8 @@ class _HomeScreenState extends State<HomeScreen>
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
+                          Color(0xffE08000),
                           Theme.of(context).primaryColor,
-                          Theme.of(context).colorScheme.secondary
                         ],
                         begin: Alignment.bottomLeft,
                         end: Alignment.topRight,
@@ -2487,7 +2473,7 @@ class _HomeScreenState extends State<HomeScreen>
                     children: [
                       TextSpan(
                         text: AppLocalization.of(context)!
-                            .getTranslatedValues("endsOnLbl")! +
+                                .getTranslatedValues("endsOnLbl")! +
                             " ",
                       ),
                       TextSpan(
@@ -2500,8 +2486,8 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       TextSpan(
                         text:
-                        data.contestDetails[index].participants.toString() +
-                            " ",
+                            data.contestDetails[index].participants.toString() +
+                                " ",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onTertiary,
                           fontWeight: FontWeight.bold,
@@ -2524,13 +2510,13 @@ class _HomeScreenState extends State<HomeScreen>
                   if (int.parse(context.read<UserDetailsCubit>().getCoins()!) >=
                       int.parse(data.contestDetails[index].entry!)) {
                     context.read<UpdateScoreAndCoinsCubit>().updateCoins(
-                      context.read<UserDetailsCubit>().getUserId(),
-                      int.parse(data.contestDetails[index].entry!),
-                      false,
-                      AppLocalization.of(context)!
-                          .getTranslatedValues(playedContestKey) ??
-                          "-",
-                    );
+                          context.read<UserDetailsCubit>().getUserId(),
+                          int.parse(data.contestDetails[index].entry!),
+                          false,
+                          AppLocalization.of(context)!
+                                  .getTranslatedValues(playedContestKey) ??
+                              "-",
+                        );
 
                     context.read<UserDetailsCubit>().updateCoins(
                         addCoin: false,
@@ -2654,6 +2640,7 @@ class _HomeScreenState extends State<HomeScreen>
                           .getTranslatedValues(convertErrorCodeToLanguageKey(
                               state.errorMessage))!,
                       onTapRetry: () {
+                        print("a7a");
                         context.read<UserDetailsCubit>().fetchUserDetails(
                             context.read<AuthCubit>().getUserFirebaseId());
                       },

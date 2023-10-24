@@ -28,13 +28,15 @@ class QuizRepository {
   Future<List<Category>> getCategory(
       {required String languageId,
       required String type,
-      required String userId}) async {
+      required String userId,
+      required String parentId}) async {
     try {
       List<Category> categoryList = [];
       List result = await _quizRemoteDataSource.getCategory(
         languageId: languageId,
         type: type,
         userId: userId,
+        parentId: parentId,
       );
 
       categoryList = result
@@ -47,10 +49,10 @@ class QuizRepository {
     }
   }
 
-  Future<List<Category>> getCategorywithoutuser(
-      {required String languageId,
-        required String type,
-        }) async {
+  Future<List<Category>> getCategorywithoutuser({
+    required String languageId,
+    required String type,
+  }) async {
     try {
       List<Category> categoryList = [];
       List result = await _quizRemoteDataSource.getCategorywithoutuser(
@@ -67,7 +69,6 @@ class QuizRepository {
       throw QuizException(errorMessageCode: e.toString());
     }
   }
-
 
   Future<List<Subcategory>> getSubCategory(
       String category, String userId) async {
@@ -154,7 +155,7 @@ class QuizRepository {
           String type = categoryId!.isNotEmpty ? "category" : "subcategory";
           String id = type == "category" ? categoryId : subcategoryId!;
           result =
-          await _quizRemoteDataSource.getQuestionByCategoryOrSubcategory(
+              await _quizRemoteDataSource.getQuestionByCategoryOrSubcategory(
             type: type,
             id: id,
           );
@@ -188,7 +189,8 @@ class QuizRepository {
       } else if (quizType == QuizTypes.audioQuestions) {
         String type = categoryId!.isNotEmpty ? "category" : "subcategory";
         String id = type == "category" ? categoryId : subcategoryId!;
-        result = await _quizRemoteDataSource.getAudioQuestions(type: type, id: id);
+        result =
+            await _quizRemoteDataSource.getAudioQuestions(type: type, id: id);
         questions = result
             .map((question) => Question.fromJson(Map.from(question)))
             .toList();

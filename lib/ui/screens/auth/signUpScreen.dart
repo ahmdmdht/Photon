@@ -97,17 +97,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 items: [
                   DropdownMenuItem<int>(
                     value: 1,
-                    child: Text('First grade secondary' ,style:  TextStyle(
+                    child: Text(AppLocalization.of(context)!.getTranslatedValues('firstGradeSecondary')! ,style:  TextStyle(
                         color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),),
                   ),
                   DropdownMenuItem<int>(
                     value: 2,
-                    child: Text('Second grade secondary' ,style: TextStyle(
+                    child: Text(AppLocalization.of(context)!.getTranslatedValues('secondGradeSecondary')! ,style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),),
                   ),
                   DropdownMenuItem<int>(
                     value: 3,
-                    child: Text('Third grade secondary' ,style: TextStyle(
+                    child: Text(AppLocalization.of(context)!.getTranslatedValues('thirdGradeSecondary')! ,style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary.withOpacity(0.6)),),
                   ),
                 ],
@@ -168,9 +168,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return SizedBox(
       height: 200,
       width: 200,
-      child: SvgPicture.asset(
-        UiUtils.getImagePath("splash_logo.svg"),
-        color: Theme.of(context).primaryColor,
+      child: Image.asset(
+        UiUtils.getImagePath("splash_logo.png"),
       ),
     );
   }
@@ -396,6 +395,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Theme.of(context).backgroundColor),
                         ),
                   color: Theme.of(context).primaryColor,
+                  padding: EdgeInsets.all(10),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       //calling signup user

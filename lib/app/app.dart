@@ -191,7 +191,7 @@ class MyApp extends StatelessWidget {
               },
               locale: currentLanguage,
               theme: appThemeData[currentTheme]!.copyWith(
-                  textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
+                  textTheme: GoogleFonts.robotoSerifTextTheme(Theme.of(context).textTheme)),
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [
                 AppLocalization.delegate,

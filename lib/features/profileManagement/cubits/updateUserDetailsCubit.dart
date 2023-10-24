@@ -38,6 +38,7 @@ class UpdateUserDetailCubit extends Cubit<UpdateUserDetailState> {
     )
         .then((value) {
       emit(UpdateUserDetailSuccess());
+
     }).catchError((e) {
       emit(UpdateUserDetailFailure(e.toString()));
     });

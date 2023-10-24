@@ -613,7 +613,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                       .width *
                                                       0.5,
                                                   child: Text(
-                                                    "Grade ${state.userProfile.grade}",
+                                                    "${state.userProfile.grade == "1" ? "${AppLocalization.of(context)!.getTranslatedValues('firstGradeSecondary')!}" : state.userProfile.grade == "2" ? "${AppLocalization.of(context)!.getTranslatedValues('secondGradeSecondary')!}" : "${AppLocalization.of(context)!.getTranslatedValues('thirdGradeSecondary')!}"}",
                                                     style: TextStyle(
                                                       fontSize: 12.0,
                                                       fontWeight: FontWeight.bold,
