@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/bookmark/bookmarkRepository.dart';
 import 'package:flutterquiz/features/bookmark/cubits/updateBookmarkCubit.dart';
@@ -299,9 +300,9 @@ class _ReviewAnswersScreenState extends State<ReviewAnswersScreen> {
                   textAlign: TeXViewTextAlign.center,
                   fontStyle: TeXViewFontStyle(fontSize: 19)),
             )
-          : Text(
+          : HtmlWidget(
               option.title!,
-              style: TextStyle(color: Theme.of(context).backgroundColor),
+              textStyle: TextStyle(color: Theme.of(context).backgroundColor),
             ),
     );
   }

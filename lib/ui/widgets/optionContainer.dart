@@ -1,10 +1,12 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutterquiz/features/quiz/models/answerOption.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterquiz/features/quiz/models/quizType.dart';
 import 'package:flutterquiz/features/settings/settingsCubit.dart';
+
 // Import package
 import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/uiUtils.dart';
@@ -20,6 +22,7 @@ class OptionContainer extends StatefulWidget {
   final int? audiencePollPercentage;
   final bool showAnswerCorrectness;
   final QuizTypes quizType;
+
   OptionContainer(
       {Key? key,
       required this.quizType,
@@ -198,7 +201,11 @@ class _OptionContainerState extends State<OptionContainer>
                                 textAlign: TeXViewTextAlign.center,
                                 fontStyle: TeXViewFontStyle(fontSize: 21)),
                           )
-                        : RichText(text: textSpan),
+                        : HtmlWidget(widget.answerOption.title!,
+                            textStyle: TextStyle(
+                                color: Theme.of(context).backgroundColor,
+                                height: 1.0,
+                                fontSize: 16.0)),
               ),
               widget.showAnswerCorrectness
                   ? IgnorePointer(
@@ -255,6 +262,7 @@ class _OptionContainerState extends State<OptionContainer>
     );
   }
 
+  ///todo: remove
   @override
   Widget build(BuildContext context) {
     textSpan = TextSpan(
@@ -263,6 +271,7 @@ class _OptionContainerState extends State<OptionContainer>
             color: Theme.of(context).backgroundColor,
             height: 1.0,
             fontSize: 16.0));
+
     return GestureDetector(
       onTapCancel: () {
         animationController.reverse();

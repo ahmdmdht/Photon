@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutterquiz/features/quiz/models/question.dart';
 import 'package:flutterquiz/ui/widgets/circularProgressContainner.dart';
 
@@ -44,15 +45,14 @@ class QuestionContainer extends StatelessWidget {
                             textAlign: TeXViewTextAlign.center,
                             fontStyle: TeXViewFontStyle(fontSize: 23)),
                       )
-                    : Text(
+                    : HtmlWidget(
                         questionNumber == null
                             ? "${question!.question}"
                             : "$questionNumber. " + "${question!.question}",
-                        style: TextStyle(
-                            fontSize: 18.0,
+                        textStyle: TextStyle(
+                            fontSize: 20.0,
                             fontWeight: FontWeight.w400,
-                            color: questionColor ??
-                                Theme.of(context).primaryColor),
+                            color: questionColor ?? Colors.black),
                       ),
               ),
             ),

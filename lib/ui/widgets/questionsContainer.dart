@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutterquiz/app/appLocalization.dart';
 import 'package:flutterquiz/features/profileManagement/cubits/userDetailsCubit.dart';
 import 'package:flutterquiz/features/quiz/models/answerOption.dart';
@@ -220,7 +222,8 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
               child: Text(
                 AppLocalization.of(context)!.getTranslatedValues("coinsLbl")! +
                     " : ${state.userProfile.coins}",
-                style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
               ),
             );
           }
@@ -255,12 +258,10 @@ class _QuestionsContainerState extends State<QuestionsContainer> {
                 textAlign: TeXViewTextAlign.center,
                 fontStyle: TeXViewFontStyle(fontSize: textSize.toInt() + 5)),
           )
-        : Text(
+        : HtmlWidget(
             questionText,
-            style: TextStyle(
-                height: 1.125,
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: textSize),
+            textStyle: TextStyle(
+                color: Theme.of(context).colorScheme.secondary, fontSize: 18),
           );
   }
 
