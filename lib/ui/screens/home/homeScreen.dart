@@ -639,33 +639,31 @@ class _HomeScreenState extends State<HomeScreen>
                                     ]),
                               ),
                             ),
-                            Builder(
-                              builder: (context) {
-                                return Container(
-                                  width: constaint.maxWidth * 0.6,
-                                  child: RichText(
-                                    maxLines: 1,
-                                    text: TextSpan(
-                                        style: TextStyle(
+                            Builder(builder: (context) {
+                              return Container(
+                                width: constaint.maxWidth * 0.6,
+                                child: RichText(
+                                  maxLines: 1,
+                                  text: TextSpan(
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "${state.userProfile.grade == "1" ? "${AppLocalization.of(context)!.getTranslatedValues('firstGradeSecondary')!}" : state.userProfile.grade == "2" ? "${AppLocalization.of(context)!.getTranslatedValues('secondGradeSecondary')!}" : "${AppLocalization.of(context)!.getTranslatedValues('thirdGradeSecondary')!}"}",
+                                          style: TextStyle(
                                             fontSize: 18.0,
-                                            fontWeight: FontWeight.bold),
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                "${state.userProfile.grade == "1" ? "${AppLocalization.of(context)!.getTranslatedValues('firstGradeSecondary')!}" : state.userProfile.grade == "2" ? "${AppLocalization.of(context)!.getTranslatedValues('secondGradeSecondary')!}" : "${AppLocalization.of(context)!.getTranslatedValues('thirdGradeSecondary')!}"}",
-                                            style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onTertiary,
-                                            ),
-                                          )
-                                        ]),
-                                  ),
-                                );
-                              }
-                            ),
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onTertiary,
+                                          ),
+                                        )
+                                      ]),
+                                ),
+                              );
+                            }),
                             Text(
                               AppLocalization.of(context)!
                                   .getTranslatedValues(letsPlay)!,
@@ -1292,40 +1290,91 @@ class _HomeScreenState extends State<HomeScreen>
                                   .pushReplacementNamed(Routes.login);
                             }));
                   } else {
-                    if (categoryList[index].noOf == "0") {
-                      //means this category does not have level
-                      if (categoryList[index].maxLevel == "0") {
-                        //direct move to quiz screen pass level as 0
-                        Navigator.of(context)
-                            .pushNamed(Routes.quiz, arguments: {
-                          "numberOfPlayer": 1,
-                          "quizType": QuizTypes.quizZone,
-                          "categoryId": categoryList[index].id,
-                          "subcategoryId": "",
-                          "level": "0",
-                          "subcategoryMaxLevel": "0",
-                          "unlockedLevel": 0,
-                          "contestId": "",
-                          "comprehensionId": "",
-                          "quizName": "Quiz Zone"
-                        });
+                    if (categoryList[index].hasChild == "1") {
+                      Navigator.of(context)
+                          .pushNamed(Routes.category, arguments: {
+                        "quizType": QuizTypes.quizZone,
+                        "typeId": categoryList[index].id,
+                        "parentId": categoryList[index].id
+                      });
+                    } else if (categoryList[index].hasChild == "0") {
+                      if (int.parse(categoryList[index].noOf.toString()) > 0) {
+                        Navigator.of(context).pushNamed(
+                          Routes.subcategoryAndLevel,
+                          arguments: {
+                            "category_id": categoryList[index].id,
+                            "category_name": categoryList[index].categoryName,
+                          },
+                        );
                       } else {
-                        //navigate to level screen
-                        Navigator.of(context)
-                            .pushNamed(Routes.levels, arguments: {
-                          "maxLevel": categoryList[index].maxLevel,
-                          "categoryId": categoryList[index].id,
-                        });
+                        if (categoryList[index].maxLevel == "0") {
+                          Navigator.of(context)
+                              .pushNamed(Routes.quiz, arguments: {
+                            "numberOfPlayer": 1,
+                            "quizType": QuizTypes.quizZone,
+                            "categoryId": categoryList[index].id,
+                            "subcategoryId": "",
+                            "level": "0",
+                            "subcategoryMaxLevel": "0",
+                            "unlockedLevel": 0,
+                            "contestId": "",
+                            "comprehensionId": "",
+                            "quizName": "Quiz Zone"
+                          });
+                        } else if (int.parse(
+                                categoryList[index].maxLevel.toString()) >
+                            0) {
+                          Navigator.of(context)
+                              .pushNamed(Routes.levels, arguments: {
+                            "maxLevel": categoryList[index].maxLevel,
+                            "categoryId": categoryList[index].id,
+                          });
+                        } else {
+                          Navigator.of(context).pushNamed(
+                            Routes.subcategoryAndLevel,
+                            arguments: {
+                              "category_id": categoryList[index].id,
+                              "category_name": categoryList[index].categoryName,
+                            },
+                          );
+                        }
                       }
-                    } else {
-                      Navigator.of(context).pushNamed(
-                        Routes.subcategoryAndLevel,
-                        arguments: {
-                          "category_id": categoryList[index].id,
-                          "category_name": categoryList[index].categoryName,
-                        },
-                      );
                     }
+                    //
+                    // if (categoryList[index].noOf == "0") {
+                    //   //means this category does not have level
+                    //   if (categoryList[index].maxLevel == "0") {
+                    //     //direct move to quiz screen pass level as 0
+                    //     Navigator.of(context)
+                    //         .pushNamed(Routes.quiz, arguments: {
+                    //       "numberOfPlayer": 1,
+                    //       "quizType": QuizTypes.quizZone,
+                    //       "categoryId": categoryList[index].id,
+                    //       "subcategoryId": "",
+                    //       "level": "0",
+                    //       "subcategoryMaxLevel": "0",
+                    //       "unlockedLevel": 0,
+                    //       "contestId": "",
+                    //       "comprehensionId": "",
+                    //       "quizName": "Quiz Zone"
+                    //     });
+                    //   } else {
+                    //     //navigate to level screen
+                    //     Navigator.of(context)
+                    //         .pushNamed(Routes.levels, arguments: {
+                    //       "maxLevel": categoryList[index].maxLevel,
+                    //       "categoryId": categoryList[index].id,
+                    //     });
+                    //   }
+                    // } else {
+                    //   Navigator.of(context).pushNamed(
+                    //     Routes.subcategoryAndLevel,
+                    //     arguments: {
+                    //       "category_id": categoryList[index].id,
+                    //       "category_name": categoryList[index].categoryName,
+                    //     },
+                    //   );
+                    // }
                   }
                 },
                 child: Wrap(
@@ -2674,10 +2723,8 @@ class _HomeScreenState extends State<HomeScreen>
                       children: [
                         _buildProfileContainer(statusBarPadding),
                         _buildScoreRank(statusBarPadding),
-
-                        //_smartExample(),
+                        // _smartExample(),
                         _buildCategoryView(),
-
                         _buildCategory(),
                         !checkContest ? buildContestLive() : SizedBox(),
                         !checkContest ? _buildContest() : SizedBox(),

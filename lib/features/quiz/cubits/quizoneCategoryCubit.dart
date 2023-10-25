@@ -25,11 +25,16 @@ class QuizoneCategoryCubit extends Cubit<QuizoneCategoryState> {
   QuizoneCategoryCubit(this._quizRepository) : super(QuizoneCategoryInitial());
 
   void getQuizCategory(
-      {required String languageId, required String userId}) async {
+      {required String languageId,
+      required String userId,
+      String? parentId}) async {
     emit(QuizoneCategoryProgress());
     _quizRepository
         .getCategory(
-            languageId: languageId, type: "1", userId: userId, parentId: "")
+            languageId: languageId,
+            type: "1",
+            userId: userId,
+            parentId: parentId ?? "")
         .then(
           (val) => emit(QuizoneCategorySuccess(val)),
         )
