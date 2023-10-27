@@ -9,6 +9,8 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../utils/send_telgram_message.dart';
+
 class ExamRemoteDataSource {
   Future<dynamic> getExams(
       {required String userId,
@@ -57,8 +59,12 @@ class ExamRemoteDataSource {
     } on SocketException catch (_) {
       throw ExamException(errorMessageCode: noInternetCode);
     } on ExamException catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw ExamException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw ExamException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -83,8 +89,12 @@ class ExamRemoteDataSource {
     } on SocketException catch (_) {
       throw ExamException(errorMessageCode: noInternetCode);
     } on ExamException catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw ExamException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw ExamException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -157,8 +167,12 @@ class ExamRemoteDataSource {
     } on SocketException catch (_) {
       throw ExamException(errorMessageCode: noInternetCode);
     } on ExamException catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw ExamException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       print(e.toString());
       throw ExamException(errorMessageCode: defaultErrorMessageCode);
     }

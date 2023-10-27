@@ -28,14 +28,17 @@ class QuizCategoryCubit extends Cubit<QuizCategoryState> {
       {required String languageId,
       required String type,
       required String userId,
-      String? parentId}) async {
+      String? parentId,
+      String? isBattle}) async {
     emit(QuizCategoryProgress());
     _quizRepository
         .getCategory(
-            languageId: languageId,
-            type: type,
-            userId: userId,
-            parentId: parentId ?? "")
+          languageId: languageId,
+          type: type,
+          userId: userId,
+          parentId: parentId ?? "",
+          isBattle: isBattle ?? "false",
+        )
         .then(
           (val) => emit(QuizCategorySuccess(val)),
         )

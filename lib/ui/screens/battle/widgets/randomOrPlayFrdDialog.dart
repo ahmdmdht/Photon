@@ -39,10 +39,11 @@ class _RandomOrPlayFrdDialogState extends State<RandomOrPlayFrdDialog> {
       if (context.read<SystemConfigCubit>().getIsCategoryEnableForBattle() ==
           "1") {
         context.read<QuizCategoryCubit>().getQuizCategory(
-              languageId: UiUtils.getCurrentQuestionLanguageId(context),
-              type: UiUtils.getCategoryTypeNumberFromQuizType(QuizTypes.battle),
-              userId: context.read<UserDetailsCubit>().getUserId(),
-            );
+            languageId: UiUtils.getCurrentQuestionLanguageId(context),
+            type: UiUtils.getCategoryTypeNumberFromQuizType(QuizTypes.battle),
+            userId: context.read<UserDetailsCubit>().getUserId(),
+            parentId: "",
+            isBattle: "true");
       }
     });
     super.initState();

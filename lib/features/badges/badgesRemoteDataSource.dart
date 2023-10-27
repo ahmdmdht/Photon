@@ -8,6 +8,8 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/send_telgram_message.dart';
+
 class BadgesRemoteDataSource {
   //response of this will be map of badges
   /*
@@ -40,6 +42,8 @@ class BadgesRemoteDataSource {
     } on BadgesException catch (e) {
       throw BadgesException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BadgesException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -65,6 +69,8 @@ class BadgesRemoteDataSource {
     } on BadgesException catch (e) {
       throw BadgesException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BadgesException(errorMessageCode: defaultErrorMessageCode);
     }
   }

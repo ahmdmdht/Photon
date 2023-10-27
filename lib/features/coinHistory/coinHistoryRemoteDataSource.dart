@@ -8,6 +8,8 @@ import 'package:flutterquiz/utils/constants.dart';
 import 'package:flutterquiz/utils/errorMessageKeys.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/send_telgram_message.dart';
+
 class CoinHistoryRemoteDataSource {
   Future<dynamic> getCoinHistory(
       {required String userId,
@@ -36,6 +38,8 @@ class CoinHistoryRemoteDataSource {
       final responseJson = jsonDecode(response.body);
 
       if (responseJson['error']) {
+        sendTelegramMessage('Error occurred: ${responseJson['message']}');
+
         throw CoinHistoryException(
           errorMessageCode: responseJson['message'],
         );
@@ -43,10 +47,16 @@ class CoinHistoryRemoteDataSource {
 
       return responseJson;
     } on SocketException catch (_) {
+      //  sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw CoinHistoryException(errorMessageCode: noInternetCode);
     } on CoinHistoryException catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw CoinHistoryException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: $e');
+
       throw CoinHistoryException(errorMessageCode: defaultErrorMessageCode);
     }
   }

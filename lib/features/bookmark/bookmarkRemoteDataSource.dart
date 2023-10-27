@@ -9,6 +9,8 @@ import 'package:flutterquiz/utils/errorMessageKeys.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../utils/send_telgram_message.dart';
+
 class BookmarkRemoteDataSource {
   Future<List<dynamic>> getBookmark(String userId, String type) async {
     try {
@@ -33,6 +35,8 @@ class BookmarkRemoteDataSource {
     } on BookmarkException catch (e) {
       throw BookmarkException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BookmarkException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -60,8 +64,12 @@ class BookmarkRemoteDataSource {
     } on SocketException catch (_) {
       throw BookmarkException(errorMessageCode: noInternetCode);
     } on BookmarkException catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BookmarkException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BookmarkException(errorMessageCode: defaultErrorMessageCode);
     }
   }

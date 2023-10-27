@@ -49,9 +49,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../utils/send_telgram_message.dart';
 
 Future<Widget> initializeApp() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 // This condition checks if the application is running on a web platform. If it is not running on the web, the code inside the block will be executed
   if (!kIsWeb) {
@@ -92,7 +92,8 @@ class MyApp extends StatelessWidget {
     precacheImage(AssetImage(UiUtils.getImagePath("splash_logo.png")), context);
     precacheImage(AssetImage(UiUtils.getImagePath("map_finded.png")), context);
     precacheImage(AssetImage(UiUtils.getImagePath("map_finding.png")), context);
-    precacheImage(AssetImage(UiUtils.getImagePath("scratchCardCover.png")), context);
+    precacheImage(
+        AssetImage(UiUtils.getImagePath("scratchCardCover.png")), context);
 
     return MultiBlocProvider(
       //providing global providers
@@ -191,7 +192,8 @@ class MyApp extends StatelessWidget {
               },
               locale: currentLanguage,
               theme: appThemeData[currentTheme]!.copyWith(
-                  textTheme: GoogleFonts.robotoSerifTextTheme(Theme.of(context).textTheme)),
+                  textTheme: GoogleFonts.robotoSerifTextTheme(
+                      Theme.of(context).textTheme)),
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [
                 AppLocalization.delegate,
@@ -203,11 +205,6 @@ class MyApp extends StatelessWidget {
                 return UiUtils.getLocaleFromLanguageCode(languageCode);
               }).toList(),
               initialRoute: Routes.splash,
-
-
-
-
-              
               onGenerateRoute: Routes.onGenerateRouted,
             ),
           );

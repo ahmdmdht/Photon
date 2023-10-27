@@ -14,6 +14,8 @@ import 'package:flutterquiz/utils/internetConnectivity.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../utils/send_telgram_message.dart';
+
 class BattleRoomRemoteDataSource {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
@@ -53,11 +55,10 @@ class BattleRoomRemoteDataSource {
         body.remove(languageIdKey);
       }
 
-
       print("GetRandomQuestion${body}");
       final response = await http.post(Uri.parse(getQuestionForOneToOneBattle),
           body: body, headers: await ApiUtils.getHeaders());
-      final responseJson = jsonDecode(response.body);   
+      final responseJson = jsonDecode(response.body);
 
       if (responseJson['error']) {
         throw BattleRoomException(
@@ -69,6 +70,8 @@ class BattleRoomRemoteDataSource {
     } on BattleRoomException catch (e) {
       throw BattleRoomException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BattleRoomException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -95,6 +98,8 @@ class BattleRoomRemoteDataSource {
     } on BattleRoomException catch (e) {
       throw BattleRoomException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BattleRoomException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -193,7 +198,9 @@ class BattleRoomRemoteDataSource {
       throw BattleRoomException(errorMessageCode: noInternetCode);
     } on PlatformException catch (_) {
       throw BattleRoomException(errorMessageCode: defaultErrorMessageCode);
-    } catch (_) {
+    } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BattleRoomException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -351,6 +358,8 @@ class BattleRoomRemoteDataSource {
     } on PlatformException catch (_) {
       throw BattleRoomException(errorMessageCode: unableToCreateRoomCode);
     } on BattleRoomException catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw BattleRoomException(errorMessageCode: e.toString());
     } catch (_) {
       throw BattleRoomException(errorMessageCode: defaultErrorMessageCode);

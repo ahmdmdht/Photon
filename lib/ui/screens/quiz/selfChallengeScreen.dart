@@ -56,6 +56,7 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
             type: UiUtils.getCategoryTypeNumberFromQuizType(
                 QuizTypes.selfChallenge),
             userId: context.read<UserDetailsCubit>().getUserId(),
+            isBattle: "true",
           );
     });
   }
@@ -535,8 +536,9 @@ class _SelfChallengeScreenState extends State<SelfChallengeScreen> {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: List.generate(
-                                        context.read<SystemConfigCubit>()
-                                            .getSelfChallengeTime() ~/
+                                        context
+                                                .read<SystemConfigCubit>()
+                                                .getSelfChallengeTime() ~/
                                             3,
                                         (index) => (index + 1) * 3)
                                     .map((e) => _buildSelectTimeAndQuestionContainer(

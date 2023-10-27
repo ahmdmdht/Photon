@@ -29,7 +29,8 @@ class QuizRepository {
       {required String languageId,
       required String type,
       required String userId,
-      required String parentId}) async {
+      required String parentId,
+      required String isBattle}) async {
     try {
       List<Category> categoryList = [];
       List result = await _quizRemoteDataSource.getCategory(
@@ -37,6 +38,7 @@ class QuizRepository {
         type: type,
         userId: userId,
         parentId: parentId,
+        isBattle: isBattle,
       );
 
       categoryList = result

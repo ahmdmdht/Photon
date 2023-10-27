@@ -268,31 +268,39 @@ class QuizRemoteDataSource {
     }
   }
 
-  Future<dynamic> getCategory(
-      {required String languageId,
-      required String type,
-      required String userId,
-      required String parentId}) async {
+  Future<dynamic> getCategory({
+    required String languageId,
+    required String type,
+    required String userId,
+    required String parentId,
+    required String isBattle,
+  }) async {
     try {
       //body of post request
-      Map<String, String> body = {
+      Map<String, dynamic> body = {
         accessValueKey: accessValue,
         languageIdKey: languageId,
         userIdKey: userId,
         typeKey: type,
-        "parent_id": parentId
+        "parent_id": parentId,
+        "is_battle": isBattle,
       };
 
-      print("A7777777a $body");
+      print("BODY FOR GET CATEGORY $body");
 
       if (languageId.isEmpty) {
         body.remove(languageIdKey);
       }
 
-      print(body);
-      final response = await http.post(Uri.parse(getCategoryUrl),
-          body: body, headers: await ApiUtils.getHeaders());
+      final response = await http
+          .post(Uri.parse(getCategoryUrl),
+              body: body, headers: await ApiUtils.getHeaders())
+          .catchError((error) {
+        print("sssssss $error");
+      });
+
       final responseJson = jsonDecode(response.body);
+
       logger.d(responseJson);
 
       if (responseJson['error']) {

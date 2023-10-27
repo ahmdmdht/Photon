@@ -24,6 +24,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RoomDialog extends StatefulWidget {
   final QuizTypes quizType;
+
   RoomDialog({Key? key, required this.quizType}) : super(key: key);
 
   @override
@@ -42,14 +43,16 @@ class _RoomDialogState extends State<RoomDialog> {
 
   @override
   void initState() {
+    String userID = context.read<UserDetailsCubit>().getUserId();
     super.initState();
     Future.delayed(Duration.zero, () {
       if (isCategoryEnabled()) {
         context.read<QuizCategoryCubit>().getQuizCategory(
-              languageId: UiUtils.getCurrentQuestionLanguageId(context),
-              type: UiUtils.getCategoryTypeNumberFromQuizType(widget.quizType),
-              userId: context.read<UserDetailsCubit>().getUserId(),
-            );
+            languageId: UiUtils.getCurrentQuestionLanguageId(context),
+            type: UiUtils.getCategoryTypeNumberFromQuizType(widget.quizType),
+            userId: userID,
+            parentId: "",
+            isBattle: "true");
       }
       context.read<RewardedAdCubit>().createRewardedAd(context,
           onFbRewardAdCompleted: _addCoinsAfterRewardAd);
@@ -173,7 +176,8 @@ class _RoomDialogState extends State<RoomDialog> {
     return DropdownButton<String>(
         key: Key(keyValue),
         borderRadius: BorderRadius.circular(20),
-        dropdownColor: Theme.of(context).backgroundColor, //same as background of dropdown color
+        dropdownColor: Theme.of(context).backgroundColor,
+        //same as background of dropdown color
         style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),
         isExpanded: true,
         iconEnabledColor: Theme.of(context).primaryColor,
@@ -862,7 +866,8 @@ class _RoomDialogState extends State<RoomDialog> {
                   children: [
                     Row(
                       children: [
-                        _buildTabContainer(1,
+                        _buildTabContainer(
+                            1,
                             AppLocalization.of(context)!
                                 .getTranslatedValues("creatingLbl")!,
                             constraints),

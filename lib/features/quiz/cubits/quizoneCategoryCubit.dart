@@ -12,29 +12,34 @@ class QuizoneCategoryProgress extends QuizoneCategoryState {}
 
 class QuizoneCategorySuccess extends QuizoneCategoryState {
   final List<Category> categories;
+
   QuizoneCategorySuccess(this.categories);
 }
 
 class QuizoneCategoryFailure extends QuizoneCategoryState {
   final String errorMessage;
+
   QuizoneCategoryFailure(this.errorMessage);
 }
 
 class QuizoneCategoryCubit extends Cubit<QuizoneCategoryState> {
   final QuizRepository _quizRepository;
+
   QuizoneCategoryCubit(this._quizRepository) : super(QuizoneCategoryInitial());
 
   void getQuizCategory(
       {required String languageId,
       required String userId,
-      String? parentId}) async {
+      String? parentId,
+      String? isBattle}) async {
     emit(QuizoneCategoryProgress());
     _quizRepository
         .getCategory(
             languageId: languageId,
             type: "1",
             userId: userId,
-            parentId: parentId ?? "")
+            parentId: parentId ?? "",
+            isBattle: isBattle ?? "false")
         .then(
           (val) => emit(QuizoneCategorySuccess(val)),
         )

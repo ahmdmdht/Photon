@@ -12,6 +12,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:apple_sign_in_safety/apple_sign_in.dart';
 
+import '../../utils/send_telgram_message.dart';
+
 class AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -38,7 +40,6 @@ class AuthRemoteDataSource {
       String? friendCode}) async {
     try {
       String fcmToken = await getFCMToken();
-      print("a7aaaaaaaaaaaaaaaaaaaaaaaaaakkkkk");
       print(grade);
 
       print("fcmToken $fcmToken");
@@ -64,6 +65,8 @@ class AuthRemoteDataSource {
       print("responseJson $responseJson");
 
       if (responseJson['error']) {
+        sendTelegramMessage('Error occurred: ${responseJson['message']}');
+
         throw AuthException(errorMessageCode: responseJson['message']);
       }
       return Map<String, dynamic>.from(responseJson['data']);
@@ -72,7 +75,8 @@ class AuthRemoteDataSource {
     } on AuthException catch (e) {
       throw AuthException(errorMessageCode: e.toString());
     } catch (e) {
-      //print(e.toString());
+      sendTelegramMessage('Error occurred: $e');
+
       throw AuthException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -126,6 +130,8 @@ class AuthRemoteDataSource {
     } on AuthException catch (e) {
       throw AuthException(errorMessageCode: e.toString());
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       throw AuthException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -149,6 +155,8 @@ class AuthRemoteDataSource {
         //throw AuthException(errorMessageCode: responseJson['message']);
       }
     } catch (e) {
+      sendTelegramMessage('Error occurred: ${e.toString()}');
+
       //throw AuthException(errorMessageCode: defaultErrorMessageCode);
     }
   }
@@ -343,7 +351,6 @@ class AuthRemoteDataSource {
         email: email,
         password: password,
       );
-
 
       print("userCredential ${userCredential}");
 
