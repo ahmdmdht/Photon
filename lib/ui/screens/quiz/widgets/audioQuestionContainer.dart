@@ -494,7 +494,7 @@ class _CurrentDurationContainerState extends State<CurrentDurationContainer> {
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {
   Rect getPreferredRect({
-    required RenderBox parentBox,x
+    required RenderBox parentBox,
     Offset offset = Offset.zero,
     required SliderThemeData sliderTheme,
     bool isEnabled = false,

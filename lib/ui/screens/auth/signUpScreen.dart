@@ -399,8 +399,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       //calling signup user
-                      context.read<SignUpCubit>().signUpUser(authProvider: AuthProvider.email,
-                         email:  edtEmail.text.trim(),password:  edtPwd.text.trim() ,grade: selectedGrade.toString() );
+                      context.read<SignUpCubit>().signUpUser(
+                          authProvider: AuthProvider.email,
+                         email:  edtEmail.text.trim(),
+                          password:  edtPwd.text.trim() ,
+                          grade: selectedGrade.toString() );
                       Hive.box(authBox).put(gradeKey, selectedGrade.toString());
 
                       resetForm();
